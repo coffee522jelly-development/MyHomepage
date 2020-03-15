@@ -1,0 +1,67 @@
+<script>
+$(function(){
+  $("form").validate({
+    rules: {
+      cmd :{
+        required: true
+      },
+      url :{
+        required: true
+      }
+    },
+    messages: {
+      cmd :{
+        required: "Webサイトの名前（呼び出しキーフレーズ）を入力してください。"
+      },
+      url :{
+        required: "URLを入力してください"
+      }
+    }
+  });
+  $('#ajax').on('click',function(){
+		$.ajax({
+				url:'./requestBM.php',
+				type:'POST',
+        async:false,
+				data:{
+            'cmd':$('#cmd').val(),
+						'url':$('#url').val()
+				}
+		})
+		// Ajaxリクエストが成功した時発動
+		.done( (data) => {
+				$('.result').html(data);
+          $.ajax({
+              url:'./SubmitBM.html',
+              type:'GET',
+              async:false
+          })
+          // Ajaxリクエストが成功した時発動
+          .done( (data) => {
+              $('.result').html(data);
+              console.log(data);
+          })
+          // Ajaxリクエストが失敗した時発動
+          .fail( (data) => {
+              $('.result').html(data);
+              console.log(data);
+          })
+          document.getElementById( "Hello" ).value = data ;
+          speak();
+		})
+		// Ajaxリクエストが失敗した時発動
+		.fail( (data) => {
+				$('.result').html(data);
+		})
+});
+});
+</script>
+<div>
+    <p>※音声コマンドが正しく認識されるか、試すことができます。音声認識を開始し、話かけてください。</p>
+    <form id="recipe2" name="Recipe" method="post" return false>
+      <input id="cmd" class="form-control col-9 mx-auto"　type="text" name="cmd" placeholder="Webサイトの名前（呼び出しキーフレーズ)"　required /><br />
+      <input id="url" class="form-control col-9 mx-auto" type="text" name="url" placeholder="URL"　 required /><br />
+      <button id="ajax"  class="btn btn-primary col-9 mx-auto d-block" type="submit" name="action" value="send">登録</button>
+      <br>
+    </form>
+</div>

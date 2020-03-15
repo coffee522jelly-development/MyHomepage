@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/* デフォルト：980px以上用（PC用）の記述 */
+.card{
+  width:100%;
+  background-color: #eeeeee;
+  height:300px;
+}
+#buttons{
+  text-align: center;
+}
+#Hello{
+  text-align: center;
+  font-size:12px;
+}
+#content{
+  text-align: center;
+  margin-top:120px;
+}
+body{
+  margin-top:57px;
+  font-size:14px;
+}
+/*#btn.btn-dark.d-block.col-md-1{
+  height:48px;
+  margin-top:10px;
+}*/
+.table{
+  font-size:14px;
+  margin:0 auto;
+  table-layout: fixed;
+  width:100%;
+}
+/*#recipe{/*Form.html
+  padding-top: 57px;
+}*/
+.sidebar{
+  height:1200px;
+}
+/*.row.input-group-lg{
+  position:fixed;
+  top:48px;
+  width:100%;
+  z-index:3;
+}*/
+/*.d-flex.justify-content-between.flex-wrap.align-items-center.pt-2{
+  position:fixed;
+  margin-left:-15px;
+  margin-top:-33px;
+  background-color:white;
+  z-index:1;
+  width:100%;
+}*/
+.col-md-12 main{
+  margin-top:50px;
+}
+div.result{
+  margin-top:120px;
+}
+
+#submit3{
+  margin-top:100px;
+}
+#submit5{
+  margin-top:100px;
+}
+
+#dashboard{
+  margin-top:10px;
+}
+
+.input-group{
+  margin-top:60px;
+  padding-bottom:10px;
+  float:left;
+}
+#DeleteForm.input-group{/*検索input-groupの例外（相殺）*/
+  margin-top:0px;
+}
+#DeleteForm2.input-group{/*検索input-groupの例外（相殺）*/
+  margin-top:0px;
+}
+/*音声認識開始ボタン、input*/
+#Speechrecog{
+  position:fixed;
+  margin-top:-65px;
+  margin-left:-15px;
+  z-index:5;
+  background-color: white;
+  padding:10px;
+}
+/*Recipe.phpの左上ロゴ*/
+.navbar-brand {
+  margin-top:0px;
+}
+
+/*Recipe.phpのページネーション*/
+#pagination{
+  margin-top:100px;
+  text-align: center;
+  padding-bottom:80px;
+}
+
+/*submit.html*/
+
+/*Recipe.php*/
+#vnum{
+  margin-top:-10px;
+  font-size:12px;
+  color:#aaaaaa;
+}
+#vname{
+  font-size:24px;
+  margin-top:-10px;
+}
+.vpro{
+  font-size:14px;
+  margin-left:100px;
+  padding-bottom:2px;
+}
+#vdate{
+  font-size:10px;
+  float:right;
+}
+div#flow{
+  margin-top:100px;
+  display:flex;
+}
+div.discription{
+  margin-left:400px;
+  margin-top:-225px;
+}
+#icon{
+  margin-top:30px;
+  height:auto;
+}
+
+/*upload.php*/
+#photo img{
+  height:30%;
+  width:30%;
+}
+
+@media screen and (max-width: 979px) {
+/* 979px以下用（タブレット用）の記述 */
+
+@media screen and (max-width: 768px) {
+/* 767px以下用（タブレット／スマートフォン用）の記述 */
+.menu a{
+  display:none;
+}
+#thumb{
+width:100%;
+height:500px;
+}
+#vdate{
+  font-size:10px;
+  float:right;
+}
+.card{
+  height:600px;
+}
+.menu{
+  display:none;
+}
+
+/*#btn.btn-dark.d-block.col-md-1{
+  height:50px;
+  width:20%;
+  margin-left:80%;
+  margin-top:120%;
+}*/
+/*.row.input-group-lg{
+  position:fixed;
+  top:45px;
+  width: 100%;
+}*/
+.input-group{
+  margin-top:0px;
+  float:left;
+}
+#search_bar{
+  padding-top:60px;
+}
+
+
+.vpro{
+  font-size:12px;
+  margin-left:180px;
+  padding-bottom:2px;
+}
+}
+@media screen and (max-width: 479px) {
+/* 479px以下用（スマートフォン用）の記述 */
+/*音声認識開始ボタン*/
+/*#btn.btn-dark.d-block.col-md-1{
+  height:50px;
+  width:20%;
+  margin-left:80%;
+  margin-top:115%;
+}*/
+.menu{
+  display:none;
+}
+#icon{
+  width:100%;
+}
+  #thumb{
+    height:330px;
+  }
+  .result{
+    padding-top:5px;
+    margin-top:77px;
+    margin-bottom:80px;
+  }
+  .discription {
+    float:left;
+    margin-left:0px;
+    margin-top:200px;
+  }
+  /*.row.input-group-lg{
+    position:fixed;
+    top:45px;
+    width: 100%;
+  }*/
+  .input-group{
+    margin-top:0px;
+    float:left;
+  }
+  #Speechrecog{
+    margin-top:-65px;
+  }
+  div.discription{
+    margin-top:40px;
+    margin-left:0px;
+  }
+  #result{
+    margin-top:120px;
+  }
+  .vpro{
+    font-size:12px;
+    margin-left:0px;
+    padding-bottom:2px;
+  }
+
+}

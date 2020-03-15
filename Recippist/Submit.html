@@ -1,0 +1,88 @@
+<script>
+$(function(){
+  $("form").validate({
+    rules: {
+      name3 :{
+        required: true
+      },
+      pro1 :{
+        required: true
+      },
+      pro2 :{
+        required: true
+      },
+      pro3 :{
+        required: true
+      }
+    },
+    messages: {
+      name3 :{
+        required: "レシピ名を入力してください。"
+      },
+      pro1 :{
+        required: "手順1を入力してください。"
+      },
+      pro2 :{
+        required: "手順2を入力してください。"
+      },
+      pro3 :{
+        required: "手順3を入力してください。"
+      }
+    }
+  });
+  $('#submit2').on('click',function(){
+		$.ajax({
+				url:'./requestRecipe.php',
+				type:'POST',
+        async:false,
+				data:{
+            'photoref':$('#photoref').val(),
+            'name3':$('#name3').val(),
+						'pro1':$('#pro1').val(),
+						'pro2':$('#pro2').val(),
+						'pro3':$('#pro3').val(),
+						'pro4':$('#pro4').val()
+				}
+		})
+
+		// Ajaxリクエストが成功した時発動
+		.done( (data) => {
+      $('.result').html(data);
+        $.ajax({
+            url:'./Submit.html',
+            type:'GET',
+            async:false
+        })
+        // Ajaxリクエストが成功した時発動
+        .done( (data) => {
+            $('.result').html(data);
+            console.log(data);
+        })
+        // Ajaxリクエストが失敗した時発動
+        .fail( (data) => {
+            $('.result').html(data);
+            console.log(data);
+        })
+        document.getElementById( "Hello" ).value = data ;
+        speak();
+
+				console.log(data);
+		})
+		// Ajaxリクエストが失敗した時発動
+		.fail( (data) => {
+				$('.result').html(data);
+				console.log(data);
+		})
+});
+});
+</script>
+    <form id="recipe" name="Recipe" method="post" return false>
+       <input id="photoref" type="file" name="photoref" size="100">
+       <input id="name3" class="validate[required] form-control col-9 mx-auto text-danger"　type="text" name="name3" placeholder="name　※必須項目です"　required /><br />
+       <input id="pro1" class=" validate[required] form-control col-9 mx-auto text-danger"　type="text" name="pro1" placeholder="手順1　※必須項目です"　 required /><br />
+       <input id="pro2" class=" validate[required] form-control col-9 mx-auto text-danger"　type="text" name="pro2" placeholder="手順2　※必須項目です"　 required /><br />
+       <input id="pro3" class=" validate[required] form-control col-9 mx-auto text-danger"　type="text" name="pro3" placeholder="手順3　※必須項目です"　 required /><br />
+       <input id="pro4" class=" validate[required] form-control col-9 mx-auto"　type="text" name="pro4" placeholder="手順4"　 required /><br />
+      <button id="submit2" class="btn btn-primary col-9 mx-auto d-block" type="submit" name="action" value="send">送信</button>
+      <br>
+    </form>
