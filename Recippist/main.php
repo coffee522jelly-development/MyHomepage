@@ -206,26 +206,26 @@ session_start();
       </body>
 </html>
 <?php
-      $pass[0] = $_SESSION["USERID"];
+      // $pass[0] = $_SESSION["USERID"];
 
-      try {
-        // DBへ接続
-        $dbh = new PDO("mysql:host=localhost; dbname=mydb; charset=utf8", 'root', 'jyxQJM.Bi3my');
-        // SQL作成
-        $sql = "SELECT * FROM ColorSetting WHERE created = (select max(created) from ColorSetting WHERE account='$pass[0]')";
-        // SQL実行
+      // try {
+      //   // DBへ接続
+      //   $dbh = new PDO("mysql:host=localhost; dbname=mydb; charset=utf8mb4", 'root', 'jyxQJM.Bi3my');
+      //   // SQL作成
+      //   $sql = "SELECT * FROM ColorSetting WHERE created = (select max(created) from ColorSetting WHERE account='$pass[0]')";
+      //   // SQL実行
 
-        $res = $dbh->query($sql);
-        // 取得したデータを出力
+      //   $res = $dbh->query($sql);
+      //   // 取得したデータを出力
 
-        foreach( $res as $value ) {
-          echo "<p class=\"invisible\" id=\"color-setting\">$value[color]</p>";
-        }
-      } catch(PDOException $e) {
-        echo $e->getMessage();
+      //   foreach( $res as $value ) {
+      //     echo "<p class=\"invisible\" id=\"color-setting\">$value[color]</p>";
+      //   }
+      // } catch(PDOException $e) {
+      //   echo $e->getMessage();
 
-        die('接続エラー:' .$Exception->getMessage());
-      }
+      //   die('接続エラー:' .$Exception->getMessage());
+      // }
 
       // 接続を閉じる
       $dbh = null;
