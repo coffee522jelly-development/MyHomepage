@@ -210,7 +210,7 @@ session_start();
 
       try {
         // DBへ接続
-        $dbh = new PDO("mysql:host=localhost; dbname=mydb; charset=utf8", 'root', 'Coffee522jelly');
+        $dbh = new PDO("mysql:host=localhost; dbname=mydb; charset=utf8", 'root', 'jyxQJM.Bi3my');
         // SQL作成
         $sql = "SELECT * FROM ColorSetting WHERE created = (select max(created) from ColorSetting WHERE account='$pass[0]')";
         // SQL実行
