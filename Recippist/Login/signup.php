@@ -10,7 +10,7 @@ if (isset($_SESSION['USERID'])) {
 
 $db['host'] = 'localhost';
 $db['user'] = 'root';
-$db['pass'] = 'Coffee522jelly';
+$db['pass'] = 'jyxQJM.Bi3my';
 $db['dbname'] = 'mydb';
 
 $error = '';

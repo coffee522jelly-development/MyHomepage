@@ -9,7 +9,7 @@ session_start();
 $dsn = 'mysql:host=localhost;dbname=mydb;charset=utf8mb4';
 date_default_timezone_set('Asia/Tokyo');
 $username = 'root';
-$password = 'Coffee522jelly';
+$password = 'jyxQJM.Bi3my';
 
 $account = $_SESSION["USERID"];
 $created = date("Y/m/d H:i:s");
