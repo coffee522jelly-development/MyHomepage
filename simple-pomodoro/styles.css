@@ -83,3 +83,15 @@
 	margin-bottom: 100px;
 	padding-top: 100px;
 }
+
+
+@media screen and (min-width:480px) { 
+  /*　for iPhone Landscape　(iPhone 横)　*/
+
+  #timer{
+    font-size:64px;
+    margin-bottom: 48px;
+    padding-top: 48px;
+  }
+
+}
