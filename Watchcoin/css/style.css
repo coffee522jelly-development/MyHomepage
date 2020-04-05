@@ -1,3 +1,15 @@
+h3 {
+    position: relative;
+    padding: 0.25em 0;
+    color:#222222;
+  }
+  h3:after {
+    content: "";
+    display: block;
+    height: 4px;
+    background: -webkit-linear-gradient(to right, rgb(188, 221, 98), turquoise);
+    background: linear-gradient(to right, rgb(188, 221, 98), turquoise);
+  }
 #Value {
     font-size:10.5px;
     color:#aaa;
@@ -18,6 +30,7 @@
 }
 
 .rss li {
+    margin-left:-40px;
     padding-top:2px;
     padding-bottom:2px;
     border-bottom:1px solid #ccc; 

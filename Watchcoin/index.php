@@ -24,8 +24,8 @@
 <div class="container">
 <h3>Current Price Graph</h3>
 <div class="row">
-<canvas id="myBarChart" class="col-6" width="400px" height="200px"></canvas>
-<canvas id="myBarChart2" class="col-6" width="400px" height="200px"></canvas>
+<canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
+<canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
 </div>
 
   <div id="nowPrice">
@@ -33,7 +33,7 @@
   <p id="Trend"></p>
   </div>
   <div class="row">
-    <div id ="topics" class="col-6">
+    <div id ="topics" class="col-md-6">
       <h3>In development</h3>
       <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
         支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
@@ -119,9 +119,14 @@ $arr = json_decode($json_str, true);
   console.log(trend);
   document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格平均値):" + strTrend;
 
+  var ssu = new SpeechSynthesisUtterance();
+  ssu.text = 'ビットコインの現在価格は' + ave +'円です';
+  ssu.lang = 'ja-JP';
+  speechSynthesis.speak(ssu);
+
 </script>
 <?php
-echo  '<div id="News" class="col-6"><h3>BitcoinNews</h3>';
+echo  '<div id="News" class="col-md-6"><h3>BitcoinNews</h3>';
 $rss = simplexml_load_file('http://news.google.com/news?hl=ja&gl=JP&ceid=JP:ja&ie=UTF-8&oe=UTF-8&output=rss&q=ビットコイン');
 echo '<ul class="rss">';
 foreach($rss->channel->item as $item){
@@ -138,46 +143,15 @@ foreach($rss->channel->item as $item){
 echo '</ul></div>';
 ?>
 </div>
-
-</div>
-
-<footer class="pt-4 my-md-5 pt-md-5 border-top">
-    <div class="row">
-      <div class="col-12 col-md">
-        <img class="mb-2" src="img/bitcoin.svg" alt="" width="24" height="24">
-        <small class="d-block mb-3 text-muted">&copy; Watchcoin 2020</small>
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-md-12">
+          <img class="mb-2" src="img/bitcoin.svg" alt="" width="24" height="24">
+          <small class="d-block mb-3 text-muted">&copy; Watchcoin 2020</small>
+        </div>
       </div>
-      <!-- <div class="col-6 col-md">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Cool stuff</a></li>
-          <li><a class="text-muted" href="#">Random feature</a></li>
-          <li><a class="text-muted" href="#">Team feature</a></li>
-          <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Resource</a></li>
-          <li><a class="text-muted" href="#">Resource name</a></li>
-          <li><a class="text-muted" href="#">Another resource</a></li>
-          <li><a class="text-muted" href="#">Final resource</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Team</a></li>
-          <li><a class="text-muted" href="#">Locations</a></li>
-          <li><a class="text-muted" href="#">Privacy</a></li>
-          <li><a class="text-muted" href="#">Terms</a></li>
-        </ul>
-      </div>-->
-    </div>
-</footer>
+  </footer>
+</div> <!-- container -->
 
 <!-- JavaScriptを使用する場合 -->
 <!-- jQuery、Popper.js、Bootstrap.jsの順番で読み込みます（下記はbundle版を使用） -->
