@@ -126,12 +126,17 @@ $arr = json_decode($json_str, true);
 </script>
 <?php
 echo  '<div id="News" class="col-md-6"><h3>BitcoinNews</h3>';
+$num = 11;
 $rss = simplexml_load_file('http://news.google.com/news?hl=ja&gl=JP&ceid=JP:ja&ie=UTF-8&oe=UTF-8&output=rss&q=ビットコイン');
 echo '<ul class="rss">';
 foreach($rss->channel->item as $item){
 	$title = $item->title;
 	$date = date("Y/n/j", strtotime($item->pubDate));
-	$link = $item->link;
+  $link = $item->link;
+  ++$count;
+  if($count === $num) {
+      break;
+    }
 ?>
 
 <li><a href="<?php echo $link; ?>" target="_blank">
