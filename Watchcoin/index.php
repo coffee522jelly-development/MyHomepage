@@ -30,10 +30,17 @@
 
   <div id="nowPrice">
   <p id="Value"></p>
+  <p id="Trend"></p>
   </div>
   <div class="row">
     <div id ="topics" class="col-6">
-      <h3>Topics</h3>
+      <h3>In development</h3>
+      <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
+        支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
+        開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
+        <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
+      </p>
+      <img src="img/address.jpg" width="100px" height="100px">
     </div>
 <?php
 // coincheck で取得
@@ -51,6 +58,11 @@ $json_str = @file_get_contents("https://api.bitflyer.jp/v1/ticker?product_code=B
 $json = json_decode($json_str);
 $Bitflyer = $json->ltp;
 
+// 指定日時のタイムスタンプ取得
+$timestamp = mktime(0, 0, 0, 4, 5, 2020);
+$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=86400&after=".$timestamp);
+$arr2 = json_decode($json_str, true);
+
 // bitflyerでの板取引
 $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
@@ -59,6 +71,7 @@ $arr = json_decode($json_str, true);
   let $bitFlyer = "<?php echo $Bitflyer; ?>";
   let $zaif = "<?php echo $Zaif; ?>";
   let $conicheck = "<?php echo $Coincheck; ?>";
+
   let ave = (parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3;
   document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
 
@@ -91,6 +104,21 @@ $arr = json_decode($json_str, true);
       }]
     }
   });
+
+  let trend;
+  let strTrend;
+  if(parseInt(ave) < parseInt($mid)){
+    trend = Boolean("true");
+    strTrend = "上げ(高く売りたい)";
+  }
+  else{
+    trend = Boolean("false");
+    strTrend = "下げ(安く買いたい)";
+  }
+
+  console.log(trend);
+  document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格平均値):" + strTrend;
+
 </script>
 <?php
 echo  '<div id="News" class="col-6"><h3>BitcoinNews</h3>';
