@@ -48,3 +48,10 @@ h3 {
     text-decoration: none;
     display: block; 
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: #2a2556;
+      color: #eee;
+    }
+  }
