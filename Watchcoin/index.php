@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/x-icon" href="img/bitcoin.svg">
+
 <title>WatchCoin</title>
 
 <!-- Bootstrap CSS -->
@@ -11,16 +13,13 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 <body>
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal">WatchCoin</h5>
-  <nav class="my-2 my-md-0 mr-md-3">
-    <!--<a class="p-2 text-dark" href="#">Features</a>
-    <a class="p-2 text-dark" href="#">Enterprise</a>
-    <a class="p-2 text-dark" href="#">Support</a>
-    <a class="p-2 text-dark" href="#">Pricing</a>-->
-  </nav>
-  <!--<a class="btn btn-outline-primary" href="#">Sign up</a>-->
-</div>
+  <!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="img/bitcoin.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    WatchCoin
+  </a>
+</nav>
 <div class="container">
 <h3>Current Price Graph</h3>
 <div class="row">
@@ -147,7 +146,7 @@ echo '</ul></div>';
       <div class="row">
         <div class="col-md-12">
           <img class="mb-2" src="img/bitcoin.svg" alt="" width="24" height="24">
-          <small class="d-block mb-3 text-muted">&copy; Watchcoin 2020</small>
+          <small class="d-block mb-3 text-muted">&copy; WatchCoin 2020</small>
         </div>
       </div>
   </footer>
