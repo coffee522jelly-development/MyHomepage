@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" type="image/x-icon" href="img/bitcoin.svg">
 
@@ -158,7 +159,7 @@ echo '</ul></div>';
       </p>
       <img src="img/address.jpg" width="100px" height="100px">
     </div>
-    
+
     <div id ="others" class="col-md-6">
     <h3>その他</h3>
       <a href="https://github.com/cryptohakka/bitcoinwhitepaper_jp/blob/master/Japanese/bitcoin_ja.pdf" class="list-group-item list-group-item-action">ビットコインの仕組み(原論文日本語訳)</a>
