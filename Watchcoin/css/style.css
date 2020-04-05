@@ -1,0 +1,27 @@
+#Value {
+    font-size:10.5px;
+    color:#aaa;
+}
+
+.rss ul {
+    list-style: none;
+}
+
+.rss li {
+    padding-top:2px;
+    padding-bottom:2px;
+    border-bottom:1px solid #ccc; 
+    background-color:#ddd; 
+    list-style: none;
+    margin-bottom:10px;
+}
+
+.rss li:hover { 
+    background-color:turquoise;  
+}
+
+.rss li a {
+    color:#fff;
+    text-decoration: none;
+    display: block; 
+}
