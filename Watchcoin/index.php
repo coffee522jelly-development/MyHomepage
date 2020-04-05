@@ -21,7 +21,7 @@
   </a>
 </nav>
 <div class="container">
-<h3>Current Price Graph</h3>
+<h3>現在の価格グラフ</h3>
 <div class="row">
 <canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
 <canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
@@ -32,15 +32,7 @@
   <p id="Trend"></p>
   </div>
   <div class="row">
-    <div id ="topics" class="col-md-6">
-      <h3>In development</h3>
-      <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
-        支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
-        開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
-        <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
-      </p>
-      <img src="img/address.jpg" width="100px" height="100px">
-    </div>
+
 <?php
 // coincheck で取得
 $json_str = @file_get_contents("https://coincheck.com/api/ticker");
@@ -125,7 +117,7 @@ $arr = json_decode($json_str, true);
 
 </script>
 <?php
-echo  '<div id="News" class="col-md-6"><h3>BitcoinNews</h3>';
+echo  '<div id="News" class="col-md-6"><h3>ビットコインニュース</h3>';
 $num = 11;
 $rss = simplexml_load_file('http://news.google.com/news?hl=ja&gl=JP&ceid=JP:ja&ie=UTF-8&oe=UTF-8&output=rss&q=ビットコイン');
 echo '<ul class="rss">';
@@ -146,6 +138,31 @@ foreach($rss->channel->item as $item){
 <?php }  
 echo '</ul></div>';
 ?>
+    <div id ="links" class="col-md-6">
+      <h3>取引所へのリンク</h3>
+        <div class="list-group">
+          <a href="https://coincheck.com/ja/" class="list-group-item list-group-item-action">Coincheck</a>
+          <a href="https://bitflyer.com/ja-jp/" class="list-group-item list-group-item-action">bitFlyer</a>
+          <a href="https://zaif.jp/?lang=ja" class="list-group-item list-group-item-action">Zaif</a>
+          <a href="https://bitcoin.dmm.com/" class="list-group-item list-group-item-action">DMMコイン</a>
+          <a href="https://coin.z.com/jp/" class="list-group-item list-group-item-action">GMOコイン</a>
+        </div>
+    </div>
+
+    <div id ="topics" class="col-md-6">
+      <h3>開発中</h3>
+      <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
+        支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
+        開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
+        <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
+      </p>
+      <img src="img/address.jpg" width="100px" height="100px">
+    </div>
+    
+    <div id ="others" class="col-md-6">
+    <h3>その他</h3>
+      <a href="https://github.com/cryptohakka/bitcoinwhitepaper_jp/blob/master/Japanese/bitcoin_ja.pdf" class="list-group-item list-group-item-action">ビットコインの仕組み(原論文日本語訳)</a>
+    </div>
 </div>
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
