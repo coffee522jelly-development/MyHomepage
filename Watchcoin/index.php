@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="img/bitcoin.svg">
 
 <title>WatchCoin</title>
-
+<script src="js/chartjs-chart-financial.js" type="text/javascript"></script>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -22,6 +22,11 @@
   </a>
 </nav>
 <div class="container">
+<h3>日足チャート</h3>
+<div class="row">
+  <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
+</div>
+
 <h3>現在の価格グラフ</h3>
 <div class="row">
 <canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
@@ -51,20 +56,22 @@ $json = json_decode($json_str);
 $Bitflyer = $json->ltp;
 
 // 指定日時のタイムスタンプ取得
-$timestamp = mktime(0, 0, 0, 4, 5, 2020);
-$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=86400&after=".$timestamp);
+$timestamp = time();
+$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=14400&after=".$timestamp);
 $arr2 = json_decode($json_str, true);
 
 // bitflyerでの板取引
 $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
+
+$json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc");
 ?>
 <script>
   let $bitFlyer = "<?php echo $Bitflyer; ?>";
   let $zaif = "<?php echo $Zaif; ?>";
   let $conicheck = "<?php echo $Coincheck; ?>";
 
-  let ave = (parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3;
+  let ave = Math.round((parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3);
   document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
 
   var ctx = document.getElementById("myBarChart").getContext('2d');
@@ -97,9 +104,46 @@ $arr = json_decode($json_str, true);
     }
   });
 
+  let aryTrade = <?php echo $json_trade; ?>;
+  
+  let $timearr =[];
+  function GetTime($timearr) {
+    var $date;
+    for(var i =750;i<1000;i++){
+      $date = new Date(aryTrade['result']['14400'][i][0] * 1000).toLocaleDateString('ja-JP').slice(5);
+      $timearr.push($date);
+    }
+}
+  GetTime($timearr);
+
+  // 終値
+  let $dataCarr =[];
+  function GetCData($dataCarr) {
+    var $data;
+    for(var i =750;i<1000;i++){
+      $data = aryTrade['result']['14400'][i][4];
+      $dataCarr.push($data);
+    }
+  }
+  GetCData($dataCarr);
+
+  var ctx3 = document.getElementById("myDayChart").getContext('2d');
+  var myChart3 = new Chart(ctx3, {
+    type: 'line',
+    data: {
+      labels: $timearr,
+      datasets: [{
+        label: '終値',
+		    backgroundColor: 'rgba(0, 200, 150, 0.3)',
+        data: $dataCarr,
+        pointRadius: 0,
+      }]
+    }
+  });
+
   let trend;
   let strTrend;
-  if(parseInt(ave) < parseInt($mid)){
+  if(parseInt($bitFlyer) < parseInt($mid)){
     trend = Boolean("true");
     strTrend = "上げ(高く売りたい)";
   }
@@ -109,7 +153,7 @@ $arr = json_decode($json_str, true);
   }
 
   console.log(trend);
-  document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格平均値):" + strTrend;
+  document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格):" + strTrend;
 
   var ssu = new SpeechSynthesisUtterance();
   ssu.text = 'ビットコインの現在価格は' + ave +'円です';
@@ -142,11 +186,11 @@ echo '</ul></div>';
     <div id ="links" class="col-md-6">
       <h3>取引所へのリンク</h3>
         <div class="list-group">
-          <a href="https://coincheck.com/ja/" class="list-group-item list-group-item-action">Coincheck</a>
           <a href="https://bitflyer.com/ja-jp/" class="list-group-item list-group-item-action">bitFlyer</a>
-          <a href="https://zaif.jp/?lang=ja" class="list-group-item list-group-item-action">Zaif</a>
+          <a href="https://coincheck.com/ja/" class="list-group-item list-group-item-action">Coincheck</a>
           <a href="https://bitcoin.dmm.com/" class="list-group-item list-group-item-action">DMMコイン</a>
           <a href="https://coin.z.com/jp/" class="list-group-item list-group-item-action">GMOコイン</a>
+          <a href="https://zaif.jp/?lang=ja/" class="list-group-item list-group-item-action">Zaif</a>
         </div>
     </div>
 
