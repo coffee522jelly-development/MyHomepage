@@ -22,13 +22,18 @@
     WatchCoin
   </a>
 </nav>
+
+<header>
+  
+</header>
+
 <div class="container">
 <h3>4時間足チャート</h3>
 <div class="row">
   <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
 </div>
 
-<h3>現在の価格グラフ</h3>
+<h3>現在価格</h3>
 <div class="row">
 <canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
 <canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
@@ -100,7 +105,7 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   var myChart2 = new Chart(ctx2, {
     type: 'line',
     data: {
-      labels: ["買取価格", "中値", "販売価格"],
+      labels: ["買い値", "中値", "売値"],
       datasets: [{
         label: '価格差グラフ/bitFlyer',
 		    backgroundColor: 'rgba(0, 200, 150, 0.3)',
@@ -174,6 +179,7 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
         label: '終値',
         data: $dataCarr,
         pointRadius: 0,
+        pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
         hidden: true,
@@ -181,6 +187,7 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
         label: '始値',
         data: $dataOarr,
         pointRadius: 0,
+        pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
         hidden: true,
@@ -188,22 +195,33 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
       label: '高値',
         data: $dataHarr,
         pointRadius: 0,
+        pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
       }, {
       label: '安値',
         data: $dataLarr,
         pointRadius: 0,
+        pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
       }],
     },
     options: {
+    animation: false,
     plugins: {
       colorschemes: {
         scheme: 'brewer.BrBG4'
       }
-    }
+    },
+    scales: {
+        xAxes: [{
+          ticks: {
+            maxRotation: 20,
+            minRotation: 0
+          }
+        }]
+      },
   },
   });
 
@@ -254,9 +272,10 @@ echo '</ul></div>';
     <div id ="links" class="col-md-6">
       <h3>取引所へのリンク</h3>
         <div class="list-group">
+        <a href="https://app.bitbank.cc/trade" class="list-group-item list-group-item-action">bitbank</a>
           <a href="https://bitflyer.com/ja-jp/" class="list-group-item list-group-item-action">bitFlyer</a>
           <a href="https://www.bitmex.com/?lang=ja-jp" class="list-group-item list-group-item-action">bitMEX</a>
-          <a href="https://coincheck.com/ja/" class="list-group-item list-group-item-action">Coincheck</a>
+          <a href="https://coincheck.com/exchange/tradeview" class="list-group-item list-group-item-action">Coincheck</a>
           <a href="https://bitcoin.dmm.com/" class="list-group-item list-group-item-action">DMMコイン</a>
           <a href="https://coin.z.com/jp/" class="list-group-item list-group-item-action">GMOコイン</a>
           <a href="https://app.liquid.com/ja/" class="list-group-item list-group-item-action">Liquid by Quoine</a>

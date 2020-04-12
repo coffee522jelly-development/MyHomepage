@@ -10,10 +10,6 @@ h3 {
     background: -webkit-linear-gradient(to right, rgb(188, 221, 98), turquoise);
     background: linear-gradient(to right, rgb(188, 221, 98), turquoise);
   }
-#Value {
-    font-size:10.5px;
-    color:#aaa;
-}
 
 .Trend {
     font-size:10.5px;
