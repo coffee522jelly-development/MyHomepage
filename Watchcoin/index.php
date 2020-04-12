@@ -13,6 +13,7 @@
 
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
 <body>
   <!-- Image and text -->
 <nav class="navbar navbar-light bg-light">
@@ -34,10 +35,14 @@
 </div>
 
   <div id="nowPrice">
-  <p id="Value"></p>
-  <p id="Trend"></p>
+  <p id="Value" class="col-md-6 Trend"></p>
+  <p id="Trend" class="col-md-6 Trend"></p>
+  <p id="buy" class="col-md-6 Trend"></p>
+  <p id="mid" class="col-md-6 Trend"></p>
+  <p id="sell" class="col-md-6 Trend"></p>
+  <p id="diff" class="col-md-6 Trend"></p>
   </div>
-  <div class="row">
+<div class="row">
 
 <?php
 // coincheck で取得
@@ -127,6 +132,39 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   }
   GetCData($dataCarr);
 
+  // 始値
+  let $dataOarr =[];
+  function GetOData($dataOarr) {
+    var $data;
+    for(var i =750;i<1000;i++){
+      $data = aryTrade['result']['14400'][i][1];
+      $dataOarr.push($data);
+    }
+  }
+  GetOData($dataOarr);
+
+  // 高値
+  let $dataHarr =[];
+  function GetHData($dataHarr) {
+    var $data;
+    for(var i =750;i<1000;i++){
+      $data = aryTrade['result']['14400'][i][2];
+      $dataHarr.push($data);
+    }
+  }
+  GetHData($dataHarr);
+
+  // 安値
+  let $dataLarr =[];
+  function GetLData($dataLarr) {
+    var $data;
+    for(var i =750;i<1000;i++){
+      $data = aryTrade['result']['14400'][i][3];
+      $dataLarr.push($data);
+    }
+  }
+  GetLData($dataLarr);
+
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
     type: 'line',
@@ -134,11 +172,39 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
       labels: $timearr,
       datasets: [{
         label: '終値',
-		    backgroundColor: 'rgba(0, 200, 150, 0.3)',
         data: $dataCarr,
         pointRadius: 0,
-      }]
+        fill:false,
+        borderWidth: 1.5,
+        hidden: true,
+      }, {
+        label: '始値',
+        data: $dataOarr,
+        pointRadius: 0,
+        fill:false,
+        borderWidth: 1.5,
+        hidden: true,
+      }, {
+      label: '高値',
+        data: $dataHarr,
+        pointRadius: 0,
+        fill:false,
+        borderWidth: 1.5,
+      }, {
+      label: '安値',
+        data: $dataLarr,
+        pointRadius: 0,
+        fill:false,
+        borderWidth: 1.5,
+      }],
+    },
+    options: {
+    plugins: {
+      colorschemes: {
+        scheme: 'brewer.BrBG4'
+      }
     }
+  },
   });
 
   let trend;
@@ -151,9 +217,11 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
     trend = Boolean("false");
     strTrend = "下げ(安く買いたい)";
   }
-
-  console.log(trend);
   document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格):" + strTrend;
+  document.getElementById('buy').innerHTML = "買い値：" + $bid +"円";
+  document.getElementById('mid').innerHTML = "中値：" + $mid + "円";
+  document.getElementById('sell').innerHTML = "売り値：" + $ask + "円";
+  document.getElementById('diff').innerHTML = "(売り−買い)：" + ($ask - $bid) + "円";
 
   var ssu = new SpeechSynthesisUtterance();
   ssu.text = 'ビットコインの現在価格は' + ave +'円です';
@@ -187,9 +255,11 @@ echo '</ul></div>';
       <h3>取引所へのリンク</h3>
         <div class="list-group">
           <a href="https://bitflyer.com/ja-jp/" class="list-group-item list-group-item-action">bitFlyer</a>
+          <a href="https://www.bitmex.com/?lang=ja-jp" class="list-group-item list-group-item-action">bitMEX</a>
           <a href="https://coincheck.com/ja/" class="list-group-item list-group-item-action">Coincheck</a>
           <a href="https://bitcoin.dmm.com/" class="list-group-item list-group-item-action">DMMコイン</a>
           <a href="https://coin.z.com/jp/" class="list-group-item list-group-item-action">GMOコイン</a>
+          <a href="https://app.liquid.com/ja/" class="list-group-item list-group-item-action">Liquid by Quoine</a>
           <a href="https://zaif.jp/?lang=ja/" class="list-group-item list-group-item-action">Zaif</a>
         </div>
     </div>
