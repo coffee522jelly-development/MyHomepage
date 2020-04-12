@@ -1,15 +1,19 @@
 h3 {
     position: relative;
     padding: 0.25em 0;
-    color:#222222;
-  }
-  h3:after {
-    content: "";
-    display: block;
-    height: 4px;
-    background: -webkit-linear-gradient(to right, rgb(188, 221, 98), turquoise);
-    background: linear-gradient(to right, rgb(188, 221, 98), turquoise);
-  }
+    color:#bbb !important;
+}
+
+h3:after {
+color:#bbb;
+content: "";
+display: block;
+height: 4px;
+background: -webkit-linear-gradient(to right, rgb(188, 221, 98), turquoise);
+background: linear-gradient(to right, rgb(188, 221, 98), turquoise);
+}
+
+body { background: #0e1e2d !important; }
 
 .Trend {
     font-size:10.5px;
@@ -29,8 +33,8 @@ h3 {
     margin-left:-40px;
     padding-top:2px;
     padding-bottom:2px;
-    border-bottom:1px solid #ccc; 
-    background-color:#ddd; 
+    border-bottom:1px solid #0e1e2d; 
+    background-color:#0f1e2d; 
     list-style: none;
     margin-bottom:10px;
 }
@@ -39,8 +43,12 @@ h3 {
     background-color:turquoise;  
 }
 
-.rss li a {
+.rss a:hover { 
     color:#fff;
+}
+
+.rss li a {
+    color:#aaa;
     text-decoration: none;
     display: block; 
 }

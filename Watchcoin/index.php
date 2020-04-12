@@ -67,7 +67,8 @@ $Bitflyer = $json->ltp;
 
 // 指定日時のタイムスタンプ取得
 $timestamp = time();
-$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=14400&after=".$timestamp);
+$periods = '14400';
+$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
 $arr2 = json_decode($json_str, true);
 
 // bitflyerでの板取引
@@ -75,6 +76,8 @@ $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
 
 $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc");
+$arr3 = json_decode($json_trade, true);
+$arraycount = count($arr3["result"][$periods], 1) / 8;
 ?>
 <script>
   let $bitFlyer = "<?php echo $Bitflyer; ?>";
@@ -91,10 +94,28 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
       labels: ["Conicheck", "Zaif", "bitFlyer", "Average"],
       datasets: [{
         label: 'Bitcoin',
-		    backgroundColor: 'rgba(0, 200, 150, 0.3)',
+		    backgroundColor: 'rgba(0, 200, 150, 0.7)',
         data: [$conicheck, $zaif, $bitFlyer, ave]
       }]
-    }
+    },
+    options: {
+    scales: {
+        xAxes: [{
+          gridLines: {
+              color: "#555555",
+          },
+          ticks: {
+            maxRotation: 20,
+            minRotation: 0
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+              color: "#555555",
+          }
+        }]
+      },
+    },
   });
 
   let $bid = "<?php echo $arr['bid']?>";
@@ -108,19 +129,43 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
       labels: ["買い値", "中値", "売値"],
       datasets: [{
         label: '価格差グラフ/bitFlyer',
-		    backgroundColor: 'rgba(0, 200, 150, 0.3)',
+		    backgroundColor: 'rgba(0, 200, 150, 0.7)',
         data: [$bid, $mid, $ask],
+        pointRadius: 0,
+        pointHitRadius: 2,
+        borderColor: 'turquoise',
       }]
-    }
+    },
+    options: {
+    scales: {
+        xAxes: [{
+          gridLines: {
+              color: "#555555",
+          },
+          ticks: {
+            maxRotation: 20,
+            minRotation: 0
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+              color: "#555555",
+          }
+        }]
+      }
+    },
   });
 
+  let periods = <?php echo $periods; ?>;
   let aryTrade = <?php echo $json_trade; ?>;
-  
+  let arySize = <?php echo $arraycount; ?>;
+  let aryWidth = 250;
+
   let $timearr =[];
   function GetTime($timearr) {
     var $date;
-    for(var i =750;i<1000;i++){
-      $date = new Date(aryTrade['result']['14400'][i][0] * 1000).toLocaleDateString('ja-JP').slice(5);
+    for(var i =arySize - aryWidth; i < arySize ;i++){
+      $date = new Date(aryTrade['result'][periods][i][0] * 1000).toLocaleDateString('ja-JP').slice(5);
       $timearr.push($date);
     }
 }
@@ -130,8 +175,8 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   let $dataCarr =[];
   function GetCData($dataCarr) {
     var $data;
-    for(var i =750;i<1000;i++){
-      $data = aryTrade['result']['14400'][i][4];
+    for(var i =arySize - aryWidth; i < arySize ;i++){
+      $data = aryTrade['result'][periods][i][4];
       $dataCarr.push($data);
     }
   }
@@ -141,8 +186,8 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   let $dataOarr =[];
   function GetOData($dataOarr) {
     var $data;
-    for(var i =750;i<1000;i++){
-      $data = aryTrade['result']['14400'][i][1];
+    for(var i =arySize - aryWidth; i < arySize ;i++){
+      $data = aryTrade['result'][periods][i][1];
       $dataOarr.push($data);
     }
   }
@@ -152,8 +197,8 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   let $dataHarr =[];
   function GetHData($dataHarr) {
     var $data;
-    for(var i =750;i<1000;i++){
-      $data = aryTrade['result']['14400'][i][2];
+    for(var i =arySize - aryWidth; i < arySize ;i++){
+      $data = aryTrade['result'][periods][i][2];
       $dataHarr.push($data);
     }
   }
@@ -163,8 +208,8 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
   let $dataLarr =[];
   function GetLData($dataLarr) {
     var $data;
-    for(var i =750;i<1000;i++){
-      $data = aryTrade['result']['14400'][i][3];
+    for(var i =arySize - aryWidth; i < arySize ;i++){
+      $data = aryTrade['result'][periods][i][3];
       $dataLarr.push($data);
     }
   }
@@ -216,9 +261,17 @@ $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjp
     },
     scales: {
         xAxes: [{
+          gridLines: {
+              color: "#555555",
+          },
           ticks: {
             maxRotation: 20,
             minRotation: 0
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+              color: "#555555",
           }
         }]
       },
