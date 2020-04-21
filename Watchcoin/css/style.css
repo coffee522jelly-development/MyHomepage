@@ -9,8 +9,8 @@ color:#bbb;
 content: "";
 display: block;
 height: 4px;
-background: -webkit-linear-gradient(to right, rgb(188, 221, 98), turquoise);
-background: linear-gradient(to right, rgb(188, 221, 98), turquoise);
+background: -webkit-linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233));
+background: linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233));
 }
 
 body { background: #0e1e2d !important; }
@@ -40,7 +40,7 @@ body { background: #0e1e2d !important; }
 }
 
 .rss li:hover { 
-    background-color:turquoise;  
+    background-color: rgb(22, 150, 200);  
 }
 
 .rss a:hover { 

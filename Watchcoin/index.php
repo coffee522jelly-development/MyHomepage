@@ -94,11 +94,16 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
       labels: ["Conicheck", "Zaif", "bitFlyer", "Average"],
       datasets: [{
         label: 'Bitcoin',
-		    backgroundColor: 'rgba(0, 200, 150, 0.7)',
         data: [$conicheck, $zaif, $bitFlyer, ave]
       }]
     },
     options: {
+    animation: false,
+    plugins: {
+      colorschemes: {
+        scheme: 'brewer.GnBu6'
+      }
+    },
     scales: {
         xAxes: [{
           gridLines: {
@@ -129,14 +134,18 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
       labels: ["買い値", "中値", "売値"],
       datasets: [{
         label: '価格差グラフ/bitFlyer',
-		    backgroundColor: 'rgba(0, 200, 150, 0.7)',
         data: [$bid, $mid, $ask],
         pointRadius: 0,
         pointHitRadius: 2,
-        borderColor: 'turquoise',
       }]
     },
     options: {
+    animation: false,
+    plugins: {
+      colorschemes: {
+        scheme: 'brewer.GnBu6'
+      }
+    },
     scales: {
         xAxes: [{
           gridLines: {
@@ -215,6 +224,36 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   }
   GetLData($dataLarr);
 
+  // 移動平均線1の算出
+  let $dataAve1 =[];
+  function GetAve1($dataAve1) {
+    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
+    var $size = 50;
+    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
+      for(var j = 1; j < $size; j++){
+        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+      }
+      $data = $data / $size;
+      $dataAve1.push(parseInt($data));
+    }
+  }
+  GetAve1($dataAve1);
+
+  // 移動平均線2の算出
+  let $dataAve2 =[];
+  function GetAve2($dataAve2) {
+    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
+    var $size = 25;
+    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
+      for(var j = 1; j < $size; j++){
+        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+      }
+      $data = $data / $size;
+      $dataAve2.push(parseInt($data));
+    }
+  }
+  GetAve2($dataAve2);
+
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
     type: 'line',
@@ -227,7 +266,6 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
-        hidden: true,
       }, {
         label: '始値',
         data: $dataOarr,
@@ -243,9 +281,25 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
+        hidden: true,
       }, {
       label: '安値',
         data: $dataLarr,
+        pointRadius: 0,
+        pointHitRadius: 2,
+        fill:false,
+        borderWidth: 1.5,
+        hidden: true,
+      }, {
+      label: '移動平均(7日)',
+        data: $dataAve1,
+        pointRadius: 0,
+        pointHitRadius: 2,
+        fill:false,
+        borderWidth: 1.5,
+      }, {
+      label: '移動平均(3.5日)',
+        data: $dataAve2,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
@@ -256,7 +310,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
     animation: false,
     plugins: {
       colorschemes: {
-        scheme: 'brewer.BrBG4'
+        scheme: 'brewer.GnBu6'
       }
     },
     scales: {
@@ -266,7 +320,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
           },
           ticks: {
             maxRotation: 20,
-            minRotation: 0
+            minRotation: 0,
           }
         }],
         yAxes: [{
