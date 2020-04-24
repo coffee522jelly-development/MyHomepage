@@ -101,13 +101,13 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
     animation: false,
     plugins: {
       colorschemes: {
-        scheme: 'brewer.GnBu6'
+        scheme: 'brewer.Blues8'
       }
     },
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           },
           ticks: {
             maxRotation: 20,
@@ -116,7 +116,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           }
         }]
       },
@@ -143,13 +143,13 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
     animation: false,
     plugins: {
       colorschemes: {
-        scheme: 'brewer.GnBu6'
+        scheme: 'brewer.Blues8'
       }
     },
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           },
           ticks: {
             maxRotation: 20,
@@ -158,7 +158,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           }
         }]
       }
@@ -224,9 +224,9 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   }
   GetLData($dataLarr);
 
-  // 移動平均線1の算出
-  let $dataAve1 =[];
-  function GetAve1($dataAve1) {
+  // 移動平均線10MAの算出
+  let $dataAve10 =[];
+  function GetAve10($dataAve10) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
     var $size = 10;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
@@ -234,14 +234,14 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
       }
       $data = $data / $size;
-      $dataAve1.push(parseInt($data));
+      $dataAve10.push(parseInt($data));
     }
   }
-  GetAve1($dataAve1);
+  GetAve10($dataAve10);
 
-  // 移動平均線2の算出
-  let $dataAve2 =[];
-  function GetAve2($dataAve2) {
+  // 移動平均線20MAの算出
+  let $dataAve20 =[];
+  function GetAve20($dataAve20) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
     var $size = 20;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
@@ -249,14 +249,14 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
       }
       $data = $data / $size;
-      $dataAve2.push(parseInt($data));
+      $dataAve20.push(parseInt($data));
     }
   }
-  GetAve2($dataAve2);
+  GetAve20($dataAve20);
 
-  // 移動平均線3の算出
-  let $dataAve3 =[];
-  function GetAve3($dataAve3) {
+  // 移動平均線50MAの算出
+  let $dataAve50 =[];
+  function GetAve50($dataAve50) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
     var $size = 50;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
@@ -264,14 +264,14 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
       }
       $data = $data / $size;
-      $dataAve3.push(parseInt($data));
+      $dataAve50.push(parseInt($data));
     }
   }
-  GetAve3($dataAve3);
+  GetAve50($dataAve50);
 
-  // 移動平均線4の算出
-  let $dataAve4 =[];
-  function GetAve4($dataAve4) {
+  // 移動平均線100MAの算出
+  let $dataAve100 =[];
+  function GetAve100($dataAve100) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
     var $size = 100;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
@@ -279,10 +279,10 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
       }
       $data = $data / $size;
-      $dataAve4.push(parseInt($data));
+      $dataAve100.push(parseInt($data));
     }
   }
-  GetAve4($dataAve4);
+  GetAve100($dataAve100);
 
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
@@ -295,14 +295,14 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.5,
       }, {
         label: '始値',
         data: $dataOarr,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.5,
         hidden: true,
       }, {
       label: '高値',
@@ -310,7 +310,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.5,
         hidden: true,
       }, {
       label: '安値',
@@ -318,49 +318,49 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.5,
         hidden: true,
       }, {
       label: '移動平均(10MA)',
-        data: $dataAve1,
+        data: $dataAve10,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.75,
       }, {
       label: '移動平均(20MA)',
-        data: $dataAve2,
+        data: $dataAve20,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.75,
       }, {
       label: '移動平均(50MA)',
-        data: $dataAve3,
+        data: $dataAve50,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.75,
       }, {
       label: '移動平均(100MA)',
-        data: $dataAve4,
+        data: $dataAve100,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
-        borderWidth: 1.5,
+        borderWidth: 0.75,
       }],
     },
     options: {
     animation: false,
     plugins: {
       colorschemes: {
-        scheme: 'brewer.GnBu8'
+        scheme: 'brewer.Blues8'
       }
     },
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           },
           ticks: {
             maxRotation: 20,
@@ -369,7 +369,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#555555",
+              color: "#222222",
           }
         }]
       },
