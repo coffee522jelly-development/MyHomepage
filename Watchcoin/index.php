@@ -67,7 +67,7 @@ $Bitflyer = $json->ltp;
 
 // 指定日時のタイムスタンプ取得
 $timestamp = time();
-$periods = '14400';
+$periods = '60';
 $json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
 $arr2 = json_decode($json_str, true);
 
@@ -228,7 +228,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   let $dataAve1 =[];
   function GetAve1($dataAve1) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 50;
+    var $size = 10;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
       for(var j = 1; j < $size; j++){
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
@@ -243,7 +243,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   let $dataAve2 =[];
   function GetAve2($dataAve2) {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 25;
+    var $size = 20;
     for(var i = arySize - aryWidth; i < arySize - $size ; i++){
       for(var j = 1; j < $size; j++){
         $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
@@ -253,6 +253,36 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
     }
   }
   GetAve2($dataAve2);
+
+  // 移動平均線3の算出
+  let $dataAve3 =[];
+  function GetAve3($dataAve3) {
+    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
+    var $size = 50;
+    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
+      for(var j = 1; j < $size; j++){
+        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+      }
+      $data = $data / $size;
+      $dataAve3.push(parseInt($data));
+    }
+  }
+  GetAve3($dataAve3);
+
+  // 移動平均線4の算出
+  let $dataAve4 =[];
+  function GetAve4($dataAve4) {
+    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
+    var $size = 100;
+    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
+      for(var j = 1; j < $size; j++){
+        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+      }
+      $data = $data / $size;
+      $dataAve4.push(parseInt($data));
+    }
+  }
+  GetAve4($dataAve4);
 
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
@@ -291,15 +321,29 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
         borderWidth: 1.5,
         hidden: true,
       }, {
-      label: '移動平均(7日)',
+      label: '移動平均(10MA)',
         data: $dataAve1,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
         borderWidth: 1.5,
       }, {
-      label: '移動平均(3.5日)',
+      label: '移動平均(20MA)',
         data: $dataAve2,
+        pointRadius: 0,
+        pointHitRadius: 2,
+        fill:false,
+        borderWidth: 1.5,
+      }, {
+      label: '移動平均(50MA)',
+        data: $dataAve3,
+        pointRadius: 0,
+        pointHitRadius: 2,
+        fill:false,
+        borderWidth: 1.5,
+      }, {
+      label: '移動平均(100MA)',
+        data: $dataAve4,
         pointRadius: 0,
         pointHitRadius: 2,
         fill:false,
@@ -310,7 +354,7 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
     animation: false,
     plugins: {
       colorschemes: {
-        scheme: 'brewer.GnBu6'
+        scheme: 'brewer.GnBu8'
       }
     },
     scales: {
