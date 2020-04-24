@@ -174,8 +174,8 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   function GetTime($timearr) {
     var $date;
     for(var i =arySize - aryWidth; i < arySize ;i++){
-      $date = new Date(aryTrade['result'][periods][i][0] * 1000).toLocaleDateString('ja-JP').slice(5);
-      $timearr.push($date);
+      $date = new Date(aryTrade['result'][periods][i][0] * 1000);
+      $timearr.push($date.getHours() + ":" + $date.getMinutes());
     }
 }
   GetTime($timearr);
