@@ -28,7 +28,7 @@
 </header>
 
 <div class="container">
-<h3>4時間足チャート</h3>
+<h3>1分足チャート</h3>
 <div class="row">
   <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
 </div>
