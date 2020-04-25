@@ -28,8 +28,19 @@
 <div class="container">
   <h3>1分足チャート</h3>
     <div class="row">
-      <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
+      <canvas id="myDayChart" class="col-md-12" width="1600px" height="600px"></canvas>
     </div>
+
+    <label for="SampleSize">表示するデータ数：</label>
+    <form name="ReDraw" class ="col-md-2">
+    <select id="SampleSize" name="Width" onChange="WidthSize()" class="form-control">
+    <option value="100">100</option>
+    <option value="250">250</option>
+    <option value="500">500</option>
+    <option value="750">750</option>
+    <option value="1000">1000</option>
+    </select>
+    </form>
 
   <h3>現在価格</h3>
     <div class="row">
@@ -173,7 +184,38 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   let periods = <?php echo $periods; ?>;
   let aryTrade = <?php echo $json_trade; ?>;
   let arySize = <?php echo $arraycount; ?>;
+
+  // デフォルト250設定
+  document.getElementById('SampleSize').options[1].selected = true;
   let aryWidth = 250;
+
+  function WidthSize(){
+    obj = document.ReDraw.Width;
+    index = obj.selectedIndex;
+    aryWidth = obj.options[index].value;
+
+    $timearr.length = 0;
+    $dataOarr.length = 0;
+    $dataHarr.length = 0;
+    $dataLarr.length = 0;
+    $dataCarr.length = 0;
+    $dataAve10.length = 0;
+    $dataAve20.length = 0;
+    $dataAve50.length = 0;
+    $dataAve100.length = 0;
+
+    GetOHLCData();
+    GetMA();
+    MainGraph();
+  }
+
+    // ページをreloadする方法
+  // reloadの基本的な使い方
+  function doReload() {
+  
+  // reloadメソッドによりページをリロード
+  window.location.reload();
+  }
 
   let $timearr = [];
   let $dataOarr =[];
@@ -235,6 +277,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   GetMA();
  
   // メイングラフ
+  function MainGraph(){
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
     type: 'line',
@@ -316,7 +359,8 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
       hover: {
             animationDuration: 0, // アイテムのマウスオーバー時のアニメーションの長さ
         },
-        responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
+      responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
+      maintainAspectRatio: false,
       plugins: {
         colorschemes: {
           scheme: 'brewer.Blues8'
@@ -345,6 +389,9 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
       },
   },
   });
+  }
+
+  MainGraph();
 
   // let trend;
   // let strTrend;

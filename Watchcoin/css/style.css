@@ -13,7 +13,10 @@ background: -webkit-linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233
 background: linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233));
 }
 
-body { background: #0e1e2d !important; }
+body { 
+    background: #0e1e2d !important; 
+    color: #eeeeee !important; 
+}
 
 .Trend {
     font-size:10.5px;
@@ -51,6 +54,10 @@ body { background: #0e1e2d !important; }
     color:#aaa;
     text-decoration: none;
     display: block; 
+}
+
+label {
+    color:#aaa;
 }
 
 @media (prefers-color-scheme: dark) {
