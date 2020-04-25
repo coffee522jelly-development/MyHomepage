@@ -89,6 +89,9 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   let ave = Math.round((parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3);
   document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
 
+  // グローバル設定
+  Chart.defaults.global.defaultFontColor = '#444444';
+
   var ctx = document.getElementById("myBarChart").getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
@@ -184,6 +187,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   let $dataAve50 =[];
   let $dataAve100 =[];
 
+  // OHLCデータ取得
   function GetOHLCData() {
     var $data;
     for(var i =arySize - aryWidth; i < arySize ;i++){
@@ -206,6 +210,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
     }
   }
 
+  // 移動平均計算
   function GetMA() {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
     for(var x=0; x<4; x++){
@@ -229,6 +234,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   GetOHLCData();
   GetMA();
  
+  // メイングラフ
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
     type: 'line',
@@ -296,12 +302,31 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
       }],
     },
     options: {
-    animation: false,
-    plugins: {
-      colorschemes: {
-        scheme: 'brewer.Blues8'
-      }
-    },
+      legend: {
+            labels: {
+                // このフォントプロパティ指定は、グローバルプロパティを上書きします
+                fontColor: '#cccccc'
+            }
+          },
+      title: {
+            display: true,
+            text: '1分足チャート(BTC/JPY)'
+        },
+      animation: false,
+      hover: {
+            animationDuration: 0, // アイテムのマウスオーバー時のアニメーションの長さ
+        },
+        responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
+      plugins: {
+        colorschemes: {
+          scheme: 'brewer.Blues8'
+        }
+      },
+      elements: {
+        line: {
+            tension: 0, // ベジェ曲線を無効
+        }
+      },
     scales: {
         xAxes: [{
           gridLines: {
