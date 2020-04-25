@@ -15,39 +15,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
 <body>
-  <!-- Image and text -->
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="img/bitcoin.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-    WatchCoin
-  </a>
-</nav>
-
-<header>
-  
-</header>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img src="img/bitcoin.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        WatchCoin
+      </a>
+    </nav>
+  </header>
 
 <div class="container">
-<h3>1分足チャート</h3>
-<div class="row">
-  <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
-</div>
+  <h3>1分足チャート</h3>
+    <div class="row">
+      <canvas id="myDayChart" class="col-md-12" width="400px" height="200px"></canvas>
+    </div>
 
-<h3>現在価格</h3>
-<div class="row">
-<canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
-<canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
-</div>
+  <h3>現在価格</h3>
+    <div class="row">
+      <canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
+      <canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
+    </div>
 
-  <div id="nowPrice">
-  <p id="Value" class="col-md-6 Trend"></p>
-  <p id="Trend" class="col-md-6 Trend"></p>
-  <p id="buy" class="col-md-6 Trend"></p>
-  <p id="mid" class="col-md-6 Trend"></p>
-  <p id="sell" class="col-md-6 Trend"></p>
-  <p id="diff" class="col-md-6 Trend"></p>
-  </div>
-<div class="row">
+    <div id="nowPrice">
+      <p id="Value" class="col-md-6 Trend"></p>
+      <p id="Trend" class="col-md-6 Trend"></p>
+      <p id="buy" class="col-md-6 Trend"></p>
+      <p id="mid" class="col-md-6 Trend"></p>
+      <p id="sell" class="col-md-6 Trend"></p>
+      <p id="diff" class="col-md-6 Trend"></p>
+    </div>
+
+    <div class="row">
 
 <?php
 // coincheck で取得
@@ -65,24 +64,27 @@ $json_str = @file_get_contents("https://api.bitflyer.jp/v1/ticker?product_code=B
 $json = json_decode($json_str);
 $Bitflyer = $json->ltp;
 
-// 指定日時のタイムスタンプ取得
-$timestamp = time();
-$periods = '60';
-$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
-$arr2 = json_decode($json_str, true);
-
 // bitflyerでの板取引
 $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
 
+// 指定日時のタイムスタンプ取得
+$timestamp = time();
+$periods = '60';
+$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
+$arrPeriods = json_decode($json_str, true);
+
+// 指定時間足のデータ取得
 $json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc");
-$arr3 = json_decode($json_trade, true);
-$arraycount = count($arr3["result"][$periods], 1) / 8;
+$arrOHLC = json_decode($json_trade, true);
+$arraycount = count($arrOHLC["result"][$periods], 1) / 8;
+
 ?>
+
 <script>
-  let $bitFlyer = "<?php echo $Bitflyer; ?>";
-  let $zaif = "<?php echo $Zaif; ?>";
-  let $conicheck = "<?php echo $Coincheck; ?>";
+  let $bitFlyer   = "<?php echo $Bitflyer; ?>";
+  let $zaif       = "<?php echo $Zaif; ?>";
+  let $conicheck  = "<?php echo $Coincheck; ?>";
 
   let ave = Math.round((parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3);
   document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
@@ -170,120 +172,63 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   let arySize = <?php echo $arraycount; ?>;
   let aryWidth = 250;
 
-  let $timearr =[];
-  function GetTime($timearr) {
-    var $date;
-    for(var i =arySize - aryWidth; i < arySize ;i++){
-      $date = new Date(aryTrade['result'][periods][i][0] * 1000);
-      $timearr.push($date.getHours() + ":" + $date.getMinutes());
-    }
-}
-  GetTime($timearr);
-
-  // 終値
-  let $dataCarr =[];
-  function GetCData($dataCarr) {
-    var $data;
-    for(var i =arySize - aryWidth; i < arySize ;i++){
-      $data = aryTrade['result'][periods][i][4];
-      $dataCarr.push($data);
-    }
-  }
-  GetCData($dataCarr);
-
-  // 始値
+  let $timearr = [];
   let $dataOarr =[];
-  function GetOData($dataOarr) {
-    var $data;
-    for(var i =arySize - aryWidth; i < arySize ;i++){
-      $data = aryTrade['result'][periods][i][1];
-      $dataOarr.push($data);
-    }
-  }
-  GetOData($dataOarr);
-
-  // 高値
   let $dataHarr =[];
-  function GetHData($dataHarr) {
-    var $data;
-    for(var i =arySize - aryWidth; i < arySize ;i++){
-      $data = aryTrade['result'][periods][i][2];
-      $dataHarr.push($data);
-    }
-  }
-  GetHData($dataHarr);
-
-  // 安値
   let $dataLarr =[];
-  function GetLData($dataLarr) {
+  let $dataCarr =[];
+
+  let $sizearr = [10, 20, 50, 100];
+  let $dataAve10 =[];
+  let $dataAve20 =[];
+  let $dataAve50 =[];
+  let $dataAve100 =[];
+
+  function GetOHLCData() {
     var $data;
     for(var i =arySize - aryWidth; i < arySize ;i++){
-      $data = aryTrade['result'][periods][i][3];
-      $dataLarr.push($data);
-    }
-  }
-  GetLData($dataLarr);
-
-  // 移動平均線10MAの算出
-  let $dataAve10 =[];
-  function GetAve10($dataAve10) {
-    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 10;
-    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
-      for(var j = 1; j < $size; j++){
-        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+      for(var j=0; j<5; j++){
+        $data = aryTrade['result'][periods][i][j];
+        // 時間ラベル
+        if(j == 0){ 
+          $date = new Date(aryTrade['result'][periods][i][0] * 1000);
+          $timearr.push($date.getHours() + ":" + $date.getMinutes());
+        }
+        // 始値
+        if(j == 1){ $dataOarr.push($data); }
+        // 高値
+        if(j == 2){ $dataHarr.push($data); }
+        // 安値
+        if(j == 3){ $dataLarr.push($data); }
+        // 終値
+        if(j == 4){ $dataCarr.push($data); }
       }
-      $data = $data / $size;
-      $dataAve10.push(parseInt($data));
     }
   }
-  GetAve10($dataAve10);
 
-  // 移動平均線20MAの算出
-  let $dataAve20 =[];
-  function GetAve20($dataAve20) {
+  function GetMA() {
     var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 20;
-    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
-      for(var j = 1; j < $size; j++){
-        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+    for(var x=0; x<4; x++){
+      for(var i = arySize - aryWidth; i < arySize - $sizearr[x] ; i++){
+        for(var j = 1; j < $sizearr[x]; j++){
+          $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
+        }
+        $data = $data / $sizearr[x];
+        // 10MA
+        if(x == 0){$dataAve10.push(parseInt($data));}
+        // 20MA
+        if(x == 1){$dataAve20.push(parseInt($data));}
+        // 50MA
+        if(x == 2){$dataAve50.push(parseInt($data));}
+        // 100MA
+        if(x == 3){$dataAve100.push(parseInt($data));}
       }
-      $data = $data / $size;
-      $dataAve20.push(parseInt($data));
     }
   }
-  GetAve20($dataAve20);
 
-  // 移動平均線50MAの算出
-  let $dataAve50 =[];
-  function GetAve50($dataAve50) {
-    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 50;
-    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
-      for(var j = 1; j < $size; j++){
-        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
-      }
-      $data = $data / $size;
-      $dataAve50.push(parseInt($data));
-    }
-  }
-  GetAve50($dataAve50);
-
-  // 移動平均線100MAの算出
-  let $dataAve100 =[];
-  function GetAve100($dataAve100) {
-    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    var $size = 100;
-    for(var i = arySize - aryWidth; i < arySize - $size ; i++){
-      for(var j = 1; j < $size; j++){
-        $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
-      }
-      $data = $data / $size;
-      $dataAve100.push(parseInt($data));
-    }
-  }
-  GetAve100($dataAve100);
-
+  GetOHLCData();
+  GetMA();
+ 
   var ctx3 = document.getElementById("myDayChart").getContext('2d');
   var myChart3 = new Chart(ctx3, {
     type: 'line',
@@ -376,17 +321,18 @@ $arraycount = count($arr3["result"][$periods], 1) / 8;
   },
   });
 
-  let trend;
-  let strTrend;
-  if(parseInt($bitFlyer) < parseInt($mid)){
-    trend = Boolean("true");
-    strTrend = "上げ(高く売りたい)";
-  }
-  else{
-    trend = Boolean("false");
-    strTrend = "下げ(安く買いたい)";
-  }
-  document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格):" + strTrend;
+  // let trend;
+  // let strTrend;
+  // if(parseInt($bitFlyer) < parseInt($mid)){
+  //   trend = Boolean("true");
+  //   strTrend = "上げ(高く売りたい)";
+  // }
+  // else{
+  //   trend = Boolean("false");
+  //   strTrend = "下げ(安く買いたい)";
+  // }
+  // document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格):" + strTrend;
+
   document.getElementById('buy').innerHTML = "買い値：" + $bid +"円";
   document.getElementById('mid').innerHTML = "中値：" + $mid + "円";
   document.getElementById('sell').innerHTML = "売り値：" + $ask + "円";
@@ -412,18 +358,19 @@ foreach($rss->channel->item as $item){
       break;
     }
 ?>
-
-<li><a href="<?php echo $link; ?>" target="_blank">
-<span class="title"><?php echo $title; ?></span>
-<span class="date"><?php echo $date; ?></span>
-</a></li>
-<?php }  
+  <li>
+    <a href="<?php echo $link; ?>" target="_blank">
+    <span class="title"><?php echo $title; ?></span>
+    <span class="date"><?php echo $date; ?></span>
+    </a>
+  </li>
+<?php }
 echo '</ul></div>';
 ?>
     <div id ="links" class="col-md-6">
       <h3>取引所へのリンク</h3>
         <div class="list-group">
-        <a href="https://app.bitbank.cc/trade" class="list-group-item list-group-item-action">bitbank</a>
+          <a href="https://app.bitbank.cc/trade" class="list-group-item list-group-item-action">bitbank</a>
           <a href="https://bitflyer.com/ja-jp/" class="list-group-item list-group-item-action">bitFlyer</a>
           <a href="https://www.bitmex.com/?lang=ja-jp" class="list-group-item list-group-item-action">bitMEX</a>
           <a href="https://coincheck.com/exchange/tradeview" class="list-group-item list-group-item-action">Coincheck</a>
@@ -436,16 +383,16 @@ echo '</ul></div>';
 
     <div id ="topics" class="col-md-6">
       <h3>開発中</h3>
-      <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
-        支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
-        開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
-        <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
-      </p>
+        <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
+          支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
+          開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
+          <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
+        </p>
       <img src="img/address.jpg" width="100px" height="100px">
     </div>
 
     <div id ="others" class="col-md-6">
-    <h3>その他</h3>
+      <h3>その他</h3>
       <a href="https://github.com/cryptohakka/bitcoinwhitepaper_jp/blob/master/Japanese/bitcoin_ja.pdf" class="list-group-item list-group-item-action">ビットコインの仕組み(原論文日本語訳)</a>
     </div>
 </div>
@@ -459,7 +406,6 @@ echo '</ul></div>';
   </footer>
 </div> <!-- container -->
 
-<!-- JavaScriptを使用する場合 -->
 <!-- jQuery、Popper.js、Bootstrap.jsの順番で読み込みます（下記はbundle版を使用） -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
