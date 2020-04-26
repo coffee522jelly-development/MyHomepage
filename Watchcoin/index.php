@@ -146,7 +146,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
 
   // グローバル設定
-  Chart.defaults.global.defaultFontColor = '#444444';
+  Chart.defaults.global.defaultFontColor = '#cccccc';
 
   var ctx = document.getElementById("myBarChart").getContext('2d');
   var myChart = new Chart(ctx, {
@@ -168,7 +168,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           },
           ticks: {
             maxRotation: 20,
@@ -177,7 +177,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           }
         }]
       },
@@ -210,7 +210,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           },
           ticks: {
             maxRotation: 20,
@@ -219,7 +219,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           }
         }]
       }
@@ -274,6 +274,17 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   let $dataAve50 =[];
   let $dataAve100 =[];
 
+  //　時間足情報
+  let Xperiods = "<?php echo $periods?>";
+
+  //　時間0詰め
+  var toDoubleDigits = function(num) {
+  num += "";
+  if (num.length === 1) {
+    num = "0" + num;
+  }
+    return num;     
+  }
   // OHLCデータ取得
   function GetOHLCData() {
     var $data;
@@ -283,7 +294,12 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
         // 時間ラベル
         if(j == 0){ 
           $date = new Date(aryTrade['result'][periods][i][0] * 1000);
-          $timearr.push($date.getHours() + ":" + $date.getMinutes());
+          if(parseInt(Xperiods) <= 1800)
+            $timearr.push(toDoubleDigits($date.getHours()) + ":" + toDoubleDigits($date.getMinutes()));
+          else if(parseInt(Xperiods) >= 86400)
+            $timearr.push($date.getFullYear() + "/" + toDoubleDigits(($date.getMonth() + 1)) + "/" + toDoubleDigits($date.getDate()));
+          else
+            $timearr.push(toDoubleDigits(($date.getMonth() + 1)) + "/" + toDoubleDigits($date.getDate()));
         }
         // 始値
         if(j == 1){ $dataOarr.push($data); }
@@ -419,7 +435,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
     scales: {
         xAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           },
           ticks: {
             maxRotation: 20,
@@ -428,7 +444,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
         }],
         yAxes: [{
           gridLines: {
-              color: "#222222",
+              color: "#444444",
           }
         }]
       },

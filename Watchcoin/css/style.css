@@ -64,6 +64,11 @@ label {
     width: 100px !important;
 }
 
+/*ホバー*/
+.navbar-dark .navbar-nav .nav-link:hover{
+    color: rgb(32, 69, 233);
+    }
+
 @media (prefers-color-scheme: dark) {
     body {
       background-color: #2a2556;
