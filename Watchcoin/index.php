@@ -26,21 +26,60 @@
   </header>
 
 <div class="container">
-  <h3>1分足チャート</h3>
+  <h3>BTC/JPY　チャート <?php echo $periods?></h3>
     <div class="row">
       <canvas id="myDayChart" class="col-md-12" width="1600px" height="600px"></canvas>
     </div>
-
-    <label for="SampleSize">表示するデータ数：</label>
-    <form name="ReDraw" class ="col-md-2">
-    <select id="SampleSize" name="Width" onChange="WidthSize()" class="form-control">
-    <option value="100">100</option>
-    <option value="250">250</option>
-    <option value="500">500</option>
-    <option value="750">750</option>
-    <option value="1000">1000</option>
+    <br>
+    <label for="SampleSize">時間足の指定(default=1分足)：</label>
+      <form action="index.php" method="post">
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='60'>1分足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='180'>3分足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='300'>5分足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='900'>15分足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='1800'>30分足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='3600'>1時間足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='7200'>2時間足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='14400'>4時間足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='21600'>6時間足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='43200'>12時間足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='86400'>日足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='259200'>3日足</button>
+        <!-- <button type='submit' name='periods' value='604800'>週足</button> -->
+      </form>
+    <br>
+    <label for="SampleSize">表示するデータ数(default=250)：</label>
+      <form name="ReDraw" class ="col-md-2">
+        <select id="SampleSize" name="Width" onChange="WidthSize()" class="form-control">
+          <option value="100">100</option>
+          <option value="250">250</option>
+          <option value="500">500</option>
+          <option value="750">750</option>
+          <option value="1000">1000</option>
+        </select>
+      </form>
+<br>
+<br>
+<br>
+<!-- <form action="/index.php" method="post">
+    <label for="TimeSize">足幅：</label>
+    <select name="TimeSize[]" multiple="multiple">
+        <option value="60">1分足</option>
+        <option value="180">3分足</option>
+        <option value="300">5分足</option>
+        <option value="900">15分足</option>
+        <option value="1800">30分足</option>
+        <option value="3600">1時間足</option>
+        <option value="7200">2時間足</option>
+        <option value="14400">4時間足</option>
+        <option value="21600">6時間足</option>
+        <option value="43200">12時間足</option>
+        <option value="86400">日足</option>
+        <option value="259200">3日足</option>
+        <option value="604800">週足</option>
     </select>
-    </form>
+    <input type="submit" value="送信">
+</form> -->
 
   <h3>現在価格</h3>
     <div class="row">
@@ -79,9 +118,15 @@ $Bitflyer = $json->ltp;
 $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
 
+// URLから足パラメータを読み取る
+if(isset($_POST["periods"])) {
+	$periods = $_POST["periods"];
+} else {
+	$periods = 60;
+}
+
 // 指定日時のタイムスタンプ取得
 $timestamp = time();
-$periods = '60';
 $json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
 $arrPeriods = json_decode($json_str, true);
 
@@ -353,7 +398,7 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
           },
       title: {
             display: true,
-            text: '1分足チャート(BTC/JPY)'
+            text: 'BTC/JPY　チャート'
         },
       animation: false,
       hover: {
