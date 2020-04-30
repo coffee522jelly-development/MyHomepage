@@ -39,7 +39,7 @@
 <div class="container">
   <h3>BTC/JPY　チャート <?php echo $periods?></h3>
     <div class="row">
-      <canvas id="myDayChart" class="col-md-12" width="1600px" height="900px"></canvas>
+      <canvas id="myDayChart" class="col-md-12" width="1600px" height="650px"></canvas>
     </div>
     <br>
     <label for="SampleSize">時間足の指定(default=1分足)：</label>
