@@ -7,13 +7,24 @@
 <link rel="icon" type="image/x-icon" href="img/bitcoin.svg">
 
 <title>WatchCoin</title>
-<script src="js/chartjs-chart-financial.js" type="text/javascript"></script>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 </head>
+<!-- MainGraph.js -->
+<script src="js/mainGraph.js"></script>
+<!-- MainFunc.js -->
+<script src="js/mainFunc.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<!-- upData.js 
+<script src="js/upDate.js"></script>
+-->
+<!-- Charts.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+<!-- ColorSchemes -->
 <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
+
+
 <body>
   <!-- Navbar -->
   <header>
@@ -28,27 +39,30 @@
 <div class="container">
   <h3>BTC/JPY　チャート <?php echo $periods?></h3>
     <div class="row">
-      <canvas id="myDayChart" class="col-md-12" width="1600px" height="600px"></canvas>
+      <canvas id="myDayChart" class="col-md-12" width="1600px" height="900px"></canvas>
     </div>
     <br>
     <label for="SampleSize">時間足の指定(default=1分足)：</label>
       <form action="index.php" method="post">
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='60'>1分足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='180'>3分足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='300'>5分足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='900'>15分足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='1800'>30分足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='3600'>1時間足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='7200'>2時間足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='14400'>4時間足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='21600'>6時間足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='43200'>12時間足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='86400'>日足</button>
-        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='259200'>3日足</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='60'>1m</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='180'>3m</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='300'>5m</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='900'>15m</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='1800'>30m</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='3600'>1h</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='7200'>2h</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='14400'>4h</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='21600'>6h</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='43200'>12h</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='86400'>1d</button>
+        <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='259200'>3d</button>
         <!-- <button type='submit' name='periods' value='604800'>週足</button> -->
       </form>
+      <!--
+      <button id="180btn" class="periods btn-dark rounded-pill w-100px" >３分足</button>
+      -->
     <br>
-    <label for="SampleSize">表示するデータ数(default=250)：</label>
+    <label for="SampleSize">表示するデータ数(default=500)：</label>
       <form name="ReDraw" class ="col-md-2">
         <select id="SampleSize" name="Width" onChange="WidthSize()" class="form-control">
           <option value="100">100</option>
@@ -118,32 +132,24 @@ $Bitflyer = $json->ltp;
 $json_str = file_get_contents("https://bitflyer.jp/api/echo/price");
 $arr = json_decode($json_str, true);
 
-// URLから足パラメータを読み取る
-if(isset($_POST["periods"])) {
-	$periods = $_POST["periods"];
-} else {
-	$periods = 60;
-}
+// Krakenでのドル現在価格
+$json_str = file_get_contents("https://api.cryptowat.ch/markets/kraken/btcusd/price");
+$aryPrice = json_decode($json_str, true);
+$btcusd = $aryPrice["result"]["price"];
 
-// 指定日時のタイムスタンプ取得
-$timestamp = time();
-$json_str = @file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc?periods=".$periods."&after=".$timestamp);
-$arrPeriods = json_decode($json_str, true);
-
-// 指定時間足のデータ取得
-$json_trade = file_get_contents("https://api.cryptowat.ch/markets/bitflyer/btcjpy/ohlc");
-$arrOHLC = json_decode($json_trade, true);
-$arraycount = count($arrOHLC["result"][$periods], 1) / 8;
-
+require "Request.php";
 ?>
 
 <script>
-  let $bitFlyer   = "<?php echo $Bitflyer; ?>";
-  let $zaif       = "<?php echo $Zaif; ?>";
-  let $conicheck  = "<?php echo $Coincheck; ?>";
+  MainGraph();
+
+  let $bitFlyer   = <?php echo $Bitflyer; ?>;
+  let $zaif       = <?php echo $Zaif; ?>;
+  let $conicheck  = <?php echo $Coincheck; ?>;
+  let btcusd     = <?php echo $btcusd; ?>;
 
   let ave = Math.round((parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3);
-  document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円";
+  document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円("+ btcusd +"USDドル)";
 
   // グローバル設定
   Chart.defaults.global.defaultFontColor = '#cccccc';
@@ -226,234 +232,6 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
     },
   });
 
-  let periods = <?php echo $periods; ?>;
-  let aryTrade = <?php echo $json_trade; ?>;
-  let arySize = <?php echo $arraycount; ?>;
-
-  // デフォルト250設定
-  document.getElementById('SampleSize').options[1].selected = true;
-  let aryWidth = 250;
-
-  function WidthSize(){
-    obj = document.ReDraw.Width;
-    index = obj.selectedIndex;
-    aryWidth = obj.options[index].value;
-
-    $timearr.length = 0;
-    $dataOarr.length = 0;
-    $dataHarr.length = 0;
-    $dataLarr.length = 0;
-    $dataCarr.length = 0;
-    $dataAve10.length = 0;
-    $dataAve20.length = 0;
-    $dataAve50.length = 0;
-    $dataAve100.length = 0;
-
-    GetOHLCData();
-    GetMA();
-    MainGraph();
-  }
-
-    // ページをreloadする方法
-  // reloadの基本的な使い方
-  function doReload() {
-  
-  // reloadメソッドによりページをリロード
-  window.location.reload();
-  }
-
-  let $timearr = [];
-  let $dataOarr =[];
-  let $dataHarr =[];
-  let $dataLarr =[];
-  let $dataCarr =[];
-
-  let $sizearr = [10, 20, 50, 100];
-  let $dataAve10 =[];
-  let $dataAve20 =[];
-  let $dataAve50 =[];
-  let $dataAve100 =[];
-
-  //　時間足情報
-  let Xperiods = "<?php echo $periods?>";
-
-  //　時間0詰め
-  var toDoubleDigits = function(num) {
-  num += "";
-  if (num.length === 1) {
-    num = "0" + num;
-  }
-    return num;     
-  }
-  // OHLCデータ取得
-  function GetOHLCData() {
-    var $data;
-    for(var i =arySize - aryWidth; i < arySize ;i++){
-      for(var j=0; j<5; j++){
-        $data = aryTrade['result'][periods][i][j];
-        // 時間ラベル
-        if(j == 0){ 
-          $date = new Date(aryTrade['result'][periods][i][0] * 1000);
-          if(parseInt(Xperiods) <= 1800)
-            $timearr.push(toDoubleDigits($date.getHours()) + ":" + toDoubleDigits($date.getMinutes()));
-          else if(parseInt(Xperiods) >= 86400)
-            $timearr.push($date.getFullYear() + "/" + toDoubleDigits(($date.getMonth() + 1)) + "/" + toDoubleDigits($date.getDate()));
-          else
-            $timearr.push(toDoubleDigits(($date.getMonth() + 1)) + "/" + toDoubleDigits($date.getDate()));
-        }
-        // 始値
-        if(j == 1){ $dataOarr.push($data); }
-        // 高値
-        if(j == 2){ $dataHarr.push($data); }
-        // 安値
-        if(j == 3){ $dataLarr.push($data); }
-        // 終値
-        if(j == 4){ $dataCarr.push($data); }
-      }
-    }
-  }
-
-  // 移動平均計算
-  function GetMA() {
-    var $data = parseInt(aryTrade['result'][periods][arySize - aryWidth][4]);
-    for(var x=0; x<4; x++){
-      for(var i = arySize - aryWidth; i < arySize - $sizearr[x] ; i++){
-        for(var j = 1; j < $sizearr[x]; j++){
-          $data = $data + parseInt(aryTrade['result'][periods][i + j][4]);
-        }
-        $data = $data / $sizearr[x];
-        // 10MA
-        if(x == 0){$dataAve10.push(parseInt($data));}
-        // 20MA
-        if(x == 1){$dataAve20.push(parseInt($data));}
-        // 50MA
-        if(x == 2){$dataAve50.push(parseInt($data));}
-        // 100MA
-        if(x == 3){$dataAve100.push(parseInt($data));}
-      }
-    }
-  }
-
-  GetOHLCData();
-  GetMA();
- 
-  // メイングラフ
-  function MainGraph(){
-  var ctx3 = document.getElementById("myDayChart").getContext('2d');
-  var myChart3 = new Chart(ctx3, {
-    type: 'line',
-    data: {
-      labels: $timearr,
-      datasets: [{
-        label: '終値',
-        data: $dataCarr,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.5,
-      }, {
-        label: '始値',
-        data: $dataOarr,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.5,
-        hidden: true,
-      }, {
-      label: '高値',
-        data: $dataHarr,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.5,
-        hidden: true,
-      }, {
-      label: '安値',
-        data: $dataLarr,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.5,
-        hidden: true,
-      }, {
-      label: '移動平均(10MA)',
-        data: $dataAve10,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.75,
-      }, {
-      label: '移動平均(20MA)',
-        data: $dataAve20,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.75,
-      }, {
-      label: '移動平均(50MA)',
-        data: $dataAve50,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.75,
-      }, {
-      label: '移動平均(100MA)',
-        data: $dataAve100,
-        pointRadius: 0,
-        pointHitRadius: 2,
-        fill:false,
-        borderWidth: 0.75,
-      }],
-    },
-    options: {
-      legend: {
-            labels: {
-                // このフォントプロパティ指定は、グローバルプロパティを上書きします
-                fontColor: '#cccccc'
-            }
-          },
-      title: {
-            display: true,
-            text: 'BTC/JPY　チャート'
-        },
-      animation: false,
-      hover: {
-            animationDuration: 0, // アイテムのマウスオーバー時のアニメーションの長さ
-        },
-      responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
-      maintainAspectRatio: false,
-      plugins: {
-        colorschemes: {
-          scheme: 'brewer.Blues8'
-        }
-      },
-      elements: {
-        line: {
-            tension: 0, // ベジェ曲線を無効
-        }
-      },
-    scales: {
-        xAxes: [{
-          gridLines: {
-              color: "#444444",
-          },
-          ticks: {
-            maxRotation: 20,
-            minRotation: 0,
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-              color: "#444444",
-          }
-        }]
-      },
-  },
-  });
-  }
-
-  MainGraph();
-
   // let trend;
   // let strTrend;
   // if(parseInt($bitFlyer) < parseInt($mid)){
@@ -472,11 +250,12 @@ $arraycount = count($arrOHLC["result"][$periods], 1) / 8;
   document.getElementById('diff').innerHTML = "(売り−買い)：" + ($ask - $bid) + "円";
 
   var ssu = new SpeechSynthesisUtterance();
-  ssu.text = 'ビットコインの現在価格は' + ave +'円です';
+  ssu.text = 'ビットコインの現在価格は' + ave +'円で、'+ btcusd +'ドルです。';
   ssu.lang = 'ja-JP';
   speechSynthesis.speak(ssu);
 
 </script>
+
 <?php
 echo  '<div id="News" class="col-md-6"><h3>ビットコインニュース</h3>';
 $num = 11;
@@ -540,7 +319,6 @@ echo '</ul></div>';
 </div> <!-- container -->
 
 <!-- jQuery、Popper.js、Bootstrap.jsの順番で読み込みます（下記はbundle版を使用） -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
 
 </body>
