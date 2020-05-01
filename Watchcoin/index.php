@@ -37,9 +37,9 @@
   </header>
 
 <div class="container">
-  <h3>BTC/JPY　チャート <?php echo $periods?></h3>
+  <h3>BTC/JPY　チャート </h3>
     <div class="row">
-      <canvas id="myDayChart" class="col-md-12" width="1600px" height="650px"></canvas>
+      <canvas id="myDayChart" class="col-md-12" width="1600px" height="800px"></canvas>
     </div>
     <br>
     <label for="SampleSize">時間足の指定(default=1分足)：</label>
@@ -296,7 +296,7 @@ echo '</ul></div>';
     <div id ="topics" class="col-md-6">
       <h3>開発中</h3>
         <p id="disc">ビットコインの売買の役に立つツールを作っていきたいと思っています。
-          支援してくださる方がいらっしゃいましたら、coincheckからの送金をお待ちしております。
+          支援してくださる方がいらっしゃいましたら、送金をお待ちしております。
           開発者が喜んでコーヒーを飲むので、開発スピードが上がるかも・・・
           <br>bitcoin address:18yCHudbTRxn9fy64YuACXPrmSQ9ggE73e
         </p>
@@ -304,8 +304,9 @@ echo '</ul></div>';
     </div>
 
     <div id ="others" class="col-md-6">
-      <h3>その他</h3>
-      <a href="https://github.com/cryptohakka/bitcoinwhitepaper_jp/blob/master/Japanese/bitcoin_ja.pdf" class="list-group-item list-group-item-action">ビットコインの仕組み(原論文日本語訳)</a>
+      <h3>おすすめの参考文献</h3>
+      <a href="https://github.com/cryptohakka/bitcoinwhitepaper_jp/blob/master/Japanese/bitcoin_ja.pdf" class="list-group-item list-group-item-action">ビットコイン論文日本語訳</a>
+      <a href="https://bitcoin.peryaudo.org/" class="list-group-item list-group-item-action">bitcoinのしくみ</a>
     </div>
 </div>
   <footer class="pt-4 my-md-5 pt-md-5 border-top">

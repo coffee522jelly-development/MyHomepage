@@ -1,3 +1,4 @@
+/*header*/
 h3 {
     position: relative;
     padding: 0.25em 0;
@@ -13,16 +14,19 @@ background: -webkit-linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233
 background: linear-gradient(to right, rgb(22, 200, 200), rgb(32, 69, 233));
 }
 
+/*body*/
 body { 
     background: #0e1e2d !important; 
     color: #eeeeee !important; 
 }
 
+/*trend*/
 .Trend {
     font-size:10.5px;
     color:#aaa;
 }
 
+/*news*/
 #disc {
     font-size:10.5px;
     color:#aaa;
@@ -60,15 +64,16 @@ label {
     color:#aaa;
 }
 
+/*timebar*/
 .w-100px {
     width: 80px !important;
 }
 
-/*ホバー*/
 .navbar-dark .navbar-nav .nav-link:hover{
     color: rgb(32, 69, 233);
     }
 
+/*dark-mode*/
 @media (prefers-color-scheme: dark) {
     body {
       background-color: #2a2556;

@@ -75,14 +75,14 @@
             },
         title: {
               display: true,
-              text: 'BTC/JPY　チャート'
+              text: 'BTC/JPY　'+ timeConv(periods) +'チャート',
           },
         animation: false,
         hover: {
               animationDuration: 0, // アイテムのマウスオーバー時のアニメーションの長さ
           },
         responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
-        maintainAspectRatio: false,
+        //maintainAspectRatio: false,
         plugins: {
           colorschemes: {
             scheme: 'brewer.Blues8'
@@ -112,3 +112,17 @@
     },
     });
     }
+
+
+　// 時間変換関数
+  function timeConv(time){
+      if(time >= 86400)
+        time = parseInt(time / 86400) + '日足';
+      else if(time < 3600){
+        time = parseInt(time / 60) + '分足';
+      }
+      else{
+        time = parseInt(time / 3600) + '時間足';
+      }
+      return time;
+  }
