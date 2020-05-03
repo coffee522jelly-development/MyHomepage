@@ -25,6 +25,7 @@
 <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
 
 
+
 <body>
   <!-- Navbar -->
   <header>
@@ -42,7 +43,7 @@
       <canvas id="myDayChart" class="col-md-12" width="1600px" height="800px"></canvas>
     </div>
     <br>
-    <label for="SampleSize">時間足の指定(default=1分足)：</label>
+    <label for="SampleSize">時間足の指定(default=15分足)：</label>
       <form action="index.php" method="post">
         <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='60'>1m</button>
         <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='180'>3m</button>
@@ -279,7 +280,7 @@ foreach($rss->channel->item as $item){
 <?php }
 echo '</ul></div>';
 ?>
-    <div id ="links" class="col-md-6">
+    <!-- <div id ="links" class="col-md-6">
       <h3>取引所へのリンク</h3>
         <div class="list-group">
           <a href="https://app.bitbank.cc/trade" class="list-group-item list-group-item-action">bitbank</a>
@@ -291,6 +292,13 @@ echo '</ul></div>';
           <a href="https://app.liquid.com/ja/" class="list-group-item list-group-item-action">Liquid by Quoine</a>
           <a href="https://zaif.jp/?lang=ja/" class="list-group-item list-group-item-action">Zaif</a>
         </div>
+    </div> -->
+
+    <div class="col-md-6">
+      <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/2152_RC04/embed_loader.js"></script>
+      <h3>Google 検索数(過去7日間)</h3>
+      <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 7-d"}],"category":0,"property":"news"}, {"exploreQuery":"date=now%207-d&gprop=news&q=bitcoin","guestPath":"https://trends.google.co.jp:443/trends/embed/"}); </script> 
+      <script type="text/javascript"> trends.embed.renderExploreWidget("RELATED_QUERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 7-d"}],"category":0,"property":"news"}, {"exploreQuery":"date=now%207-d&gprop=news&q=bitcoin","guestPath":"https://trends.google.co.jp:443/trends/embed/"}); </script> 
     </div>
 
     <div id ="topics" class="col-md-6">

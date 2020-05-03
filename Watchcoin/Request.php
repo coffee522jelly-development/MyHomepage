@@ -3,7 +3,7 @@
 if(isset($_POST["periods"])) {
     $periods = $_POST["periods"];
 } else {
-	$periods = 60;
+	$periods = 900;
 }
 
 // 指定時間足のデータ取得
