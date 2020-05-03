@@ -113,6 +113,67 @@
     });
     }
 
+    // 出来高グラフ
+  function VolumeGraph(){
+    var ctxVolume = document.getElementById("myVolumeChart").getContext('2d');
+    window.myVolumeChart = new Chart(ctxVolume, {
+      type: 'bar',
+      data: {
+        labels: $timearr,
+        datasets: [{
+          label: '出来高',
+          data: $dataVolume,
+          pointRadius: 0,
+          pointHitRadius: 2,
+          fill:false,
+          borderWidth: 1.5,
+        }],
+      },
+      options: {
+        legend: {
+              display: false,
+              labels: {
+                  // このフォントプロパティ指定は、グローバルプロパティを上書きします
+                  fontColor: '#cccccc'
+              }
+            },
+        animation: false,
+        hover: {
+              animationDuration: 0, // アイテムのマウスオーバー時のアニメーションの長さ
+          },
+        responsiveAnimationDuration: 0, // サイズ変更後のアニメーションの長さ
+        //maintainAspectRatio: false,
+        plugins: {
+          colorschemes: {
+            scheme: 'brewer.Blues8'
+          }
+        },
+        elements: {
+          line: {
+              tension: 0, // ベジェ曲線を無効
+          }
+        },
+      scales: {
+          xAxes: [{
+            display:false,
+            // gridLines: {
+            //     color: "#444444",
+            // },
+            // ticks: {
+            //   maxRotation: 20,
+            //   minRotation: 0,
+            // }
+          }],
+          yAxes: [{
+            gridLines: {
+                color: "#444444",
+            }
+          }]
+        },
+    },
+    });
+    }
+
 
 　// 時間変換関数
   function timeConv(time){

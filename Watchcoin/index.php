@@ -40,7 +40,8 @@
 <div class="container">
   <h3>BTC/JPY　チャート </h3>
     <div class="row">
-      <canvas id="myDayChart" class="col-md-12" width="1600px" height="800px"></canvas>
+      <canvas id="myDayChart" class="col-md-12" width="1600px" height="600px"></canvas>
+      <canvas id="myVolumeChart" class="col-md-12" width="1600px" height="200px"></canvas>
     </div>
     <br>
     <label for="SampleSize">時間足の指定(default=15分足)：</label>
@@ -143,6 +144,7 @@ require "Request.php";
 
 <script>
   MainGraph();
+  VolumeGraph();
 
   let $bitFlyer   = <?php echo $Bitflyer; ?>;
   let $zaif       = <?php echo $Zaif; ?>;
@@ -150,7 +152,7 @@ require "Request.php";
   let btcusd     = <?php echo $btcusd; ?>;
 
   let ave = Math.round((parseInt($bitFlyer) + parseInt($zaif) + parseInt($conicheck)) / 3);
-  document.getElementById('Value').innerHTML = "BitCoinの現在価格：約"　+ ave + "円("+ btcusd +"USDドル)";
+  document.getElementById('Value').innerHTML = "現在価格:"　+ ave + "円("+ btcusd +"USDドル)";
 
   // グローバル設定
   Chart.defaults.global.defaultFontColor = '#cccccc';
@@ -248,7 +250,7 @@ require "Request.php";
   document.getElementById('buy').innerHTML = "買い値：" + $bid +"円";
   document.getElementById('mid').innerHTML = "中値：" + $mid + "円";
   document.getElementById('sell').innerHTML = "売り値：" + $ask + "円";
-  document.getElementById('diff').innerHTML = "(売り−買い)：" + ($ask - $bid) + "円";
+  document.getElementById('diff').innerHTML = "売り買い差額：" + ($ask - $bid) + "円";
 
   var ssu = new SpeechSynthesisUtterance();
   ssu.text = 'ビットコインの現在価格は' + ave +'円で、'+ btcusd +'ドルです。';

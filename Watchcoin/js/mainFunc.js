@@ -4,6 +4,7 @@
   let $dataHarr =[];
   let $dataLarr =[];
   let $dataCarr =[];
+  let $dataVolume =[];
 
   let $sizearr = [10, 20, 50, 100];
   let $dataAve10 =[];
@@ -25,7 +26,7 @@ var toDoubleDigits = function(num) {
 function GetOHLCData() {
     var $data;
     for(var i =arySize - aryWidth; i < arySize ;i++){
-        for(var j=0; j<5; j++){
+        for(var j=0; j<6; j++){
             $data = aryTrade['result'][periods][i][j];
             // 時間ラベル
             if(j == 0){ 
@@ -45,6 +46,8 @@ function GetOHLCData() {
             if(j == 3){ $dataLarr.push($data); }
             // 終値
             if(j == 4){ $dataCarr.push($data); }
+            // 出来高
+            if(j == 5){ $dataVolume.push($data); }
         }
     }
 }
@@ -83,6 +86,7 @@ function clearGraph(){
     $dataHarr.length = 0;
     $dataLarr.length = 0;
     $dataCarr.length = 0;
+    $dataVolume.length = 0;
     $dataAve10.length = 0;
     $dataAve20.length = 0;
     $dataAve50.length = 0;
