@@ -78,6 +78,7 @@ function upDateMainGraph(){
     GetOHLCData();
     GetMA();
     MainGraph();
+    VolumeGraph();
 }
 
 function clearGraph(){
