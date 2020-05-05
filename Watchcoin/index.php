@@ -43,8 +43,8 @@
       <canvas id="myDayChart" class="col-md-12" width="1600px" height="600px"></canvas>
       <canvas id="myVolumeChart" class="col-md-12" width="1600px" height="200px"></canvas>
     </div>
-    <br>
-    <label for="SampleSize">時間足の指定(default=15分足)：</label>
+    <p id="Value" class="col-md-6 Trend"></p>
+    <label for="SampleSize" class="Trend">時間足の指定(default=15分足)：</label>
       <form action="index.php" method="post">
         <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='60'>1m</button>
         <button class="periods btn-dark rounded-pill w-100px " type='submit' name='periods' value='180'>3m</button>
@@ -64,7 +64,7 @@
       <button id="180btn" class="periods btn-dark rounded-pill w-100px" >３分足</button>
       -->
     <br>
-    <label for="SampleSize">表示するデータ数(default=500)：</label>
+    <label for="SampleSize" class="Trend">表示するデータ数(default=500)：</label>
       <form name="ReDraw" class ="col-md-2">
         <select id="SampleSize" name="Width" onChange="WidthSize()" class="form-control">
           <option value="100">100</option>
@@ -97,19 +97,19 @@
     <input type="submit" value="送信">
 </form> -->
 
-  <h3>現在価格</h3>
-    <div class="row">
+  <!-- <h3>現在価格</h3> -->
+    <!-- <div class="row">
       <canvas id="myBarChart" class="col-md-6" width="400px" height="200px"></canvas>
       <canvas id="myBarChart2" class="col-md-6" width="400px" height="200px"></canvas>
-    </div>
+    </div> -->
 
     <div id="nowPrice">
-      <p id="Value" class="col-md-6 Trend"></p>
-      <p id="Trend" class="col-md-6 Trend"></p>
+      
+      <!-- <p id="Trend" class="col-md-6 Trend"></p>
       <p id="buy" class="col-md-6 Trend"></p>
       <p id="mid" class="col-md-6 Trend"></p>
       <p id="sell" class="col-md-6 Trend"></p>
-      <p id="diff" class="col-md-6 Trend"></p>
+      <p id="diff" class="col-md-6 Trend"></p> -->
     </div>
 
     <div class="row">
@@ -157,83 +157,83 @@ require "Request.php";
   // グローバル設定
   Chart.defaults.global.defaultFontColor = '#cccccc';
 
-  var ctx = document.getElementById("myBarChart").getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ["Conicheck", "Zaif", "bitFlyer", "Average"],
-      datasets: [{
-        label: 'Bitcoin',
-        data: [$conicheck, $zaif, $bitFlyer, ave]
-      }]
-    },
-    options: {
-    animation: false,
-    plugins: {
-      colorschemes: {
-        scheme: 'brewer.Blues8'
-      }
-    },
-    scales: {
-        xAxes: [{
-          gridLines: {
-              color: "#444444",
-          },
-          ticks: {
-            maxRotation: 20,
-            minRotation: 0
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-              color: "#444444",
-          }
-        }]
-      },
-    },
-  });
+  // var ctx = document.getElementById("myBarChart").getContext('2d');
+  // var myChart = new Chart(ctx, {
+  //   type: 'bar',
+  //   data: {
+  //     labels: ["Conicheck", "Zaif", "bitFlyer", "Average"],
+  //     datasets: [{
+  //       label: 'Bitcoin',
+  //       data: [$conicheck, $zaif, $bitFlyer, ave]
+  //     }]
+  //   },
+  //   options: {
+  //   animation: false,
+  //   plugins: {
+  //     colorschemes: {
+  //       scheme: 'brewer.Blues8'
+  //     }
+  //   },
+  //   scales: {
+  //       xAxes: [{
+  //         gridLines: {
+  //             color: "#444444",
+  //         },
+  //         ticks: {
+  //           maxRotation: 20,
+  //           minRotation: 0
+  //         }
+  //       }],
+  //       yAxes: [{
+  //         gridLines: {
+  //             color: "#444444",
+  //         }
+  //       }]
+  //     },
+  //   },
+  // });
 
-  let $bid = "<?php echo $arr['bid']?>";
-  let $mid = "<?php echo $arr['mid']?>";
-  let $ask = "<?php echo $arr['ask']?>";
+  // let $bid = "<?php echo $arr['bid']?>";
+  // let $mid = "<?php echo $arr['mid']?>";
+  // let $ask = "<?php echo $arr['ask']?>";
 
-  var ctx2 = document.getElementById("myBarChart2").getContext('2d');
-  var myChart2 = new Chart(ctx2, {
-    type: 'line',
-    data: {
-      labels: ["買い値", "中値", "売値"],
-      datasets: [{
-        label: '価格差グラフ/bitFlyer',
-        data: [$bid, $mid, $ask],
-        pointRadius: 0,
-        pointHitRadius: 2,
-      }]
-    },
-    options: {
-    animation: false,
-    plugins: {
-      colorschemes: {
-        scheme: 'brewer.Blues8'
-      }
-    },
-    scales: {
-        xAxes: [{
-          gridLines: {
-              color: "#444444",
-          },
-          ticks: {
-            maxRotation: 20,
-            minRotation: 0
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-              color: "#444444",
-          }
-        }]
-      }
-    },
-  });
+  // var ctx2 = document.getElementById("myBarChart2").getContext('2d');
+  // var myChart2 = new Chart(ctx2, {
+  //   type: 'line',
+  //   data: {
+  //     labels: ["買い値", "中値", "売値"],
+  //     datasets: [{
+  //       label: '価格差グラフ/bitFlyer',
+  //       data: [$bid, $mid, $ask],
+  //       pointRadius: 0,
+  //       pointHitRadius: 2,
+  //     }]
+  //   },
+  //   options: {
+  //   animation: false,
+  //   plugins: {
+  //     colorschemes: {
+  //       scheme: 'brewer.Blues8'
+  //     }
+  //   },
+  //   scales: {
+  //       xAxes: [{
+  //         gridLines: {
+  //             color: "#444444",
+  //         },
+  //         ticks: {
+  //           maxRotation: 20,
+  //           minRotation: 0
+  //         }
+  //       }],
+  //       yAxes: [{
+  //         gridLines: {
+  //             color: "#444444",
+  //         }
+  //       }]
+  //     }
+  //   },
+  // });
 
   // let trend;
   // let strTrend;
@@ -247,10 +247,10 @@ require "Request.php";
   // }
   // document.getElementById('Trend').innerHTML = "トレンド(中値-現在価格):" + strTrend;
 
-  document.getElementById('buy').innerHTML = "買い値：" + $bid +"円";
-  document.getElementById('mid').innerHTML = "中値：" + $mid + "円";
-  document.getElementById('sell').innerHTML = "売り値：" + $ask + "円";
-  document.getElementById('diff').innerHTML = "売り買い差額：" + ($ask - $bid) + "円";
+  // document.getElementById('buy').innerHTML = "買い値：" + $bid +"円";
+  // document.getElementById('mid').innerHTML = "中値：" + $mid + "円";
+  // document.getElementById('sell').innerHTML = "売り値：" + $ask + "円";
+  // document.getElementById('diff').innerHTML = "売り買い差額：" + ($ask - $bid) + "円";
 
   var ssu = new SpeechSynthesisUtterance();
   ssu.text = 'ビットコインの現在価格は' + ave +'円で、'+ btcusd +'ドルです。';
@@ -298,9 +298,9 @@ echo '</ul></div>';
 
     <div class="col-md-6">
       <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/2152_RC04/embed_loader.js"></script>
-      <h3>Google 検索数(過去7日間)</h3>
+      <h3>Google 検索数</h3>
+      <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 1-d"}],"category":0,"property":"news"}, {"exploreQuery":"date=now%201-d&gprop=news&q=bitcoin","guestPath":"https://trends.google.co.jp:443/trends/embed/"}); </script> 
       <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 7-d"}],"category":0,"property":"news"}, {"exploreQuery":"date=now%207-d&gprop=news&q=bitcoin","guestPath":"https://trends.google.co.jp:443/trends/embed/"}); </script> 
-      <script type="text/javascript"> trends.embed.renderExploreWidget("RELATED_QUERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 7-d"}],"category":0,"property":"news"}, {"exploreQuery":"date=now%207-d&gprop=news&q=bitcoin","guestPath":"https://trends.google.co.jp:443/trends/embed/"}); </script> 
     </div>
 
     <div id ="topics" class="col-md-6">

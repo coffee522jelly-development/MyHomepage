@@ -165,6 +165,9 @@
             // }
           }],
           yAxes: [{
+            ticks:{
+              padding :26,
+            },
             gridLines: {
                 color: "#444444",
             }
